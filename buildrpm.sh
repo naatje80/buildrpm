@@ -55,8 +55,8 @@ then
     sed -i -e 's/\/var\/lib\//%{_sharedstate-dir}\//g' /tmp/package_files.log
     sed -i -e 's/\/var\//%{_localstate-dir}\//g' /tmp/package_files.log
     sed -i -e 's/\/usr\//%{_exec_prefix}\//g' /tmp/package_files.log
-    cat /tmp/package_files.log|egrep -v -e '*.so$|*.h$|*.pc$' > /tmp/FILES.LOG; \
-    cat /tmp/package_files.log|egrep -e '*.so$|*.h$|*.pc$' > /tmp/DEVEL_FILES.LOG
+    cat /tmp/package_files.log|egrep -v -e '*[.]so$|*[.]h$|*[.]pc$' > /tmp/FILES.LOG; \
+    cat /tmp/package_files.log|egrep -e '*[.]so$|*[.]h$|*[.]pc$' > /tmp/DEVEL_FILES.LOG
     sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec; \
     sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
     rpmbuild -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
@@ -94,7 +94,6 @@ fi
 echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/
 cd Build
-#ln -s /mnt/Sys/repo/rpmbuild/${REPODIR}
 docker build -t ${PACKAGE}-build .
 if [[ ${?} == 0 ]]
 then
