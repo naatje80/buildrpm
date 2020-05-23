@@ -20,14 +20,15 @@ BuildRequires:	libogg-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	mesa-libGL-devel
-BuildRequires:  libXrandr-devel
-BuildRequires:  wayland-devel
-BuildRequires:  libxkbcommon-devel
-BuildRequires:  openal-soft-devel
-BuildRequires:  freetype-devel
-BuildRequires:  harfbuzz-devel
-BuildRequires:  fribidi-devel
-BuildRequires:  openssl-devel
+BuildRequires:	libXrandr-devel
+BuildRequires:	wayland-devel
+BuildRequires:	libxkbcommon-devel
+BuildRequires:	openal-soft-devel
+BuildRequires:	freetype-devel
+BuildRequires:	harfbuzz-devel
+BuildRequires:	fribidi-devel
+BuildRequires:	openssl-devel
+
 Requires:		SDL2
 Requires:		libjpeg-turbo
 Requires:		libcurl
@@ -37,12 +38,12 @@ Requires:		zlib
 Requires:		libvorbis
 Requires:		mesa-libGL
 Requires:		libXrandr
-Requires:       libxkbcommon
-Requires:       openal-soft
-Requires:       freetype
-Requires:       harfbuzz
-Requires:       fribidi
-Requires:       openssl
+Requires:		libxkbcommon
+Requires:		openal-soft
+Requires:		freetype
+Requires:		harfbuzz
+Requires:		fribidi
+Requires:		openssl
 
 %description
 SuperTuxKart is a free kart racing game. It focuses on fun and not on realistic kart physics. Instructions can be found on the in-game help page.
