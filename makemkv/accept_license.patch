@@ -1,0 +1,12 @@
+--- Makefile.org	2020-04-29 06:42:17.373863274 +0000
++++ Makefile	2020-04-29 06:42:38.058574870 +0000
+@@ -33,7 +33,7 @@
+ 	@/bin/bash src/ask_eula.sh src/eula_en_linux.txt
+ 	@echo accepted > $@
+ 
+-install: tmp/eula_accepted bin/$(ARCH)/makemkvcon
++install: bin/$(ARCH)/makemkvcon
+ 	rm -f $(DESTDIR)$(PREFIX)/bin/makemkvcon
+ 	rm -f $(DESTDIR)$(PREFIX)/bin/mmdtsdec
+ 	rm -f $(DESTDIR)$(PREFIX)/share/MakeMKV/*
+	 
