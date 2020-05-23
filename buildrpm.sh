@@ -35,6 +35,8 @@ fi
 
 BUILDSCRIPT="""
 #! /bin/sh
+spectool -R -g ~/rpmbuild/SPECS/${PACKAGE}.spec
+yum-builddep -y ~/rpmbuild/SPECS/${PACKAGE}.spec
 rpmbuild -bi ~/rpmbuild/SPECS/${PACKAGE}.spec
 if [[ ${?} -eq 0 ]]
 then
@@ -74,7 +76,6 @@ COPY ${PACKAGE}.spec /root/rpmbuild/SPECS
 WORKDIR /root/rpmbuild
 RUN echo -e '[localrepo]\nname=localrepo\nbaseurl=file:///CENTOS8\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/local.repo 
 COPY build.sh /root/rpmbuild
-RUN spectool -R -g ~/rpmbuild/SPECS/${PACKAGE}.spec; yum-builddep -y ~/rpmbuild/SPECS/${PACKAGE}.spec
 """
 
 
@@ -94,7 +95,7 @@ echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/
 cd Build
 #ln -s /mnt/Sys/repo/rpmbuild/${REPODIR}
-docker build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} -t ${PACKAGE}-build .
+docker build -t ${PACKAGE}-build .
 if [[ ${?} == 0 ]]
 then
     docker run -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE}-build sh ./build.sh &&
