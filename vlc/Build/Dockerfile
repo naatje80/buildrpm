@@ -8,4 +8,5 @@ COPY vlc.spec /root/rpmbuild/SPECS
 WORKDIR /root/rpmbuild
 RUN echo -e '[localrepo]\nname=localrepo\nbaseurl=file:///CENTOS8\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/local.repo 
 COPY build.sh /root/rpmbuild
+RUN spectool -R -g ~/rpmbuild/SPECS/vlc.spec; yum-builddep -y ~/rpmbuild/SPECS/vlc.spec
 

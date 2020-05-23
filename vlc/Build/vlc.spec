@@ -17,6 +17,7 @@ BuildRequires:	libbluray-devel
 BuildRequires:	libdvdnav-devel
 BuildRequires:	libcddb-devel
 BuildRequires:	libmodplug-devel
+BuildRequires:	libvorbis-devel
 BuildRequires:	zlib-devel
 BuildRequires:	dbus-devel
 BuildRequires:	lua-devel
@@ -36,7 +37,6 @@ BuildRequires:	qt5-qtx11extras-devel
 BuildRequires:	libdvbpsi-devel
 BuildRequires:	v4l-utils
 BuildRequires:  liba52-devel
-BuildRequires:  devtoolset-4-gcc-c++
 
 Requires:	libdvdcss
 
