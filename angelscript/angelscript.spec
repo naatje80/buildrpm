@@ -7,6 +7,7 @@ Group:		Amusements/Games
 License:	zlib License
 URL:		https://www.angelcode.com/angelscript/
 Source0:    https://www.angelcode.com/angelscript/sdk/files/angelscript_%{version}.zip
+Patch0:     cmake_lib64.patch
 
 BuildRequires:  cmake
 
@@ -34,7 +35,7 @@ AngelScript development libraries
 
 %prep
 %setup -q -n sdk
-
+%patch0
 
 %build
 cd angelscript/projects/cmake

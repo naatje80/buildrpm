@@ -1,0 +1,13 @@
+--- angelscript/projects/cmake/CMakeLists.txt_org	2020-05-24 20:26:16.989364030 +0200
++++ angelscript/projects/cmake/CMakeLists.txt	2020-05-24 20:26:35.615114009 +0200
+@@ -171,8 +171,8 @@
+ #See https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#creating-packages for a detailed explanation about this part
+ install(TARGETS ${ANGELSCRIPT_LIBRARY_NAME} EXPORT AngelscriptTargets
+ 	RUNTIME DESTINATION bin
+-	LIBRARY DESTINATION lib
+-	ARCHIVE DESTINATION lib
++	LIBRARY DESTINATION lib64
++	ARCHIVE DESTINATION lib64
+ 	INCLUDES DESTINATION include
+ )
+ 
