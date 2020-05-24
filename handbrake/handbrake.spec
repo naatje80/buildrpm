@@ -5,8 +5,8 @@ Summary:	The open source video transcoder
 
 Group:		Applications/Multimedia
 License:	GPLv2+	
-URL:		https://handbrake.fr	
-Source0:	https://download.handbrake.fr/releases/%{version}/HandBrake-%{version}-source.tar.bz2
+URL:		https://handbrake.fr
+Source0:    https://github.com/HandBrake/HandBrake/releases/download/%{version}/HandBrake-%{version}-source.tar.bz2
 
 BuildRequires:  python3
 BuildRequires:  meson
