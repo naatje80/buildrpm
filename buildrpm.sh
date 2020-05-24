@@ -40,7 +40,7 @@ yum-builddep -y ~/rpmbuild/SPECS/${PACKAGE}.spec
 rpmbuild -bi ~/rpmbuild/SPECS/${PACKAGE}.spec
 if [[ ${?} -eq 0 ]]
 then
-    rpmbuild -bl ~/rpmbuild/SPECS/${PACKAGE}.spec 2>&1| sort -u|grep '^   '|grep -v '(but unpackaged)'|tr -d ' ' > /tmp/package_files.log
+    rpmbuild -bl ~/rpmbuild/SPECS/${PACKAGE}.spec 2>&1| sort -u| grep '^   '| grep -v '(but unpackaged)'| sed 's/^   //'|sed 's/^\(.*\)$/\"\1\"/' > /tmp/package_files.log
     sed -i -e 's/\/usr\/bin\//%{_bindir}\//g' /tmp/package_files.log
     sed -i -e 's/\/usr\/sbin\//%{_sbindir}\//g' /tmp/package_files.log
     sed -i -e 's/\/usr\/lib64\//%{_libdir}\//g' /tmp/package_files.log
@@ -55,9 +55,9 @@ then
     sed -i -e 's/\/var\/lib\//%{_sharedstate-dir}\//g' /tmp/package_files.log
     sed -i -e 's/\/var\//%{_localstate-dir}\//g' /tmp/package_files.log
     sed -i -e 's/\/usr\//%{_exec_prefix}\//g' /tmp/package_files.log
-    cat /tmp/package_files.log|egrep -v -e '*[.]so$|*[.]h$|*[.]pc$' > /tmp/FILES.LOG; \
+    cat /tmp/package_files.log|egrep -v -e '*[.]so$|*[.]h$|*[.]pc$' > /tmp/FILES.LOG
     cat /tmp/package_files.log|egrep -e '*[.]so$|*[.]h$|*[.]pc$' > /tmp/DEVEL_FILES.LOG
-    sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec; \
+    sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
     sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
     rpmbuild -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
 fi
@@ -97,7 +97,7 @@ cd Build
 docker build -t ${PACKAGE}-build .
 if [[ ${?} == 0 ]]
 then
-    docker run -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE}-build sh ./build.sh &&
+    docker run --rm -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE}-build sh ./build.sh &&
         createrepo -v --update /mnt/Sys/repo/rpmbuild/${REPODIR}
         #find -type f -newerct "${START}" -exec  && 
 fi
