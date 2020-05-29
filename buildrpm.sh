@@ -35,10 +35,11 @@ fi
 
 BUILDSCRIPT="""
 #! /bin/sh
+set -o pipefail
 spectool -R -g ~/rpmbuild/SPECS/${PACKAGE}.spec
 yum-builddep -y ~/rpmbuild/SPECS/${PACKAGE}.spec
 rpmbuild -bi ~/rpmbuild/SPECS/${PACKAGE}.spec
-if [[ ${?} -eq 0 ]]
+if [[ \${?} -eq 0 ]]
 then
     rpmbuild -bl ~/rpmbuild/SPECS/${PACKAGE}.spec 2>&1| sort -u| grep '^   '| grep -v '(but unpackaged)'| sed 's/^   //'|sed 's/^\(.*\)$/\"\1\"/' > /tmp/package_files.log
     sed -i -e 's/\/usr\/bin\//%{_bindir}\//g' /tmp/package_files.log
@@ -60,6 +61,8 @@ then
     sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
     sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
     rpmbuild -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
+else
+    exit 1
 fi
 """
 
@@ -99,8 +102,9 @@ if [[ ${?} == 0 ]]
 then
     #docker run --rm -l ${PACKAGE}-build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
     docker run --name=${PACKAGE}-build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
-        createrepo -v --update /mnt/Sys/repo/rpmbuild/${REPODIR} ||
-        ( echo "ERROR Compiling: ${PACKAGE}, opening docker for debugging...."; docker commit ${PACKAGE}-build debug-container; 
-        docker rm ${PACKAGE}-build; docker run --rm -ti -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
+        ( createrepo -v --update /mnt/Sys/repo/rpmbuild/${REPODIR}; docker rm ${PACKAGE}-build ) ||
+        ( echo -e "\n############################################################\nERROR Compiling: ${PACKAGE}, opening docker for debugging....\n############################################################";
+            docker commit ${PACKAGE}-build debug-container; 
+            docker rm ${PACKAGE}-build; docker run --rm -ti -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
         #find -type f -newerct "${START}" -exec  && 
 fi
