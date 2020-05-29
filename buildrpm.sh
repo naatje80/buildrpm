@@ -94,10 +94,13 @@ fi
 echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/
 cd Build
-docker build -t ${PACKAGE}-build .
+docker build -t ${PACKAGE} .
 if [[ ${?} == 0 ]]
 then
-    docker run --rm -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE}-build sh ./build.sh &&
-        createrepo -v --update /mnt/Sys/repo/rpmbuild/${REPODIR}
+    #docker run --rm -l ${PACKAGE}-build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
+    docker run --name=${PACKAGE}-build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
+        createrepo -v --update /mnt/Sys/repo/rpmbuild/${REPODIR} ||
+        ( echo "ERROR Compiling: ${PACKAGE}, opening docker for debugging...."; docker commit ${PACKAGE}-build debug-container; 
+        docker rm ${PACKAGE}-build; docker run --rm -ti -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
         #find -type f -newerct "${START}" -exec  && 
 fi
