@@ -1,0 +1,53 @@
+--- Makefile_org	2020-05-29 08:59:13.042722757 +0000
++++ Makefile	2020-05-29 09:01:26.727929290 +0000
+@@ -5,21 +5,25 @@
+ 
+ OBJ = $(SRC:%.cpp=%.o)
+ 
+-LIB = libsquish.a
++VERSION = 1.10
+ 
++DEVEL_LIB = libsquish.so
++
++LIB = $(DEVEL_LIB).$(VERSION)
++ 
+ all : $(LIB)
+ 
+ install : $(LIB)
+ 	install squish.h $(INSTALL_DIR)/include 
+-	install libsquish.a $(INSTALL_DIR)/lib
++	install $(LIB) $(INSTALL_DIR)/lib
++	ln -s /usr/lib/$(LIB) $(INSTALL_DIR)/lib/$(DEVEL_LIB)
+ 
+ uninstall:
+ 	$(RM) $(INSTALL_DIR)/include/squish.h
+ 	$(RM) $(INSTALL_DIR)/lib/libsquish.a
+ 
+ $(LIB) : $(OBJ)
+-	$(AR) cr $@ $?
+-	ranlib $@
++	$(CXX) $(CPPFLAGS) -I. $(CXXFLAGS) $(OBJ) -shared -o $@
+ 
+ %.o : %.cpp
+ 	$(CXX) $(CPPFLAGS) -I. $(CXXFLAGS) -o$@ -c $<
+--- alpha.cpp_org       2020-05-29 08:01:22.801835961 +0000
++++ alpha.cpp   2020-05-29 08:02:21.726041060 +0000
+@@ -25,6 +25,7 @@
+    
+ #include "alpha.h"
+ #include <algorithm>
++#include <climits>
+ 
+ namespace squish {
+ 
+
+--- singlecolourfit.cpp_org     2020-05-29 08:02:55.545584827 +0000
++++ singlecolourfit.cpp 2020-05-29 08:03:15.464316119 +0000
+@@ -26,6 +26,7 @@
+ #include "singlecolourfit.h"
+ #include "colourset.h"
+ #include "colourblock.h"
++#include <climits>
+ 
+ namespace squish {
+ 

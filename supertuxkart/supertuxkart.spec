@@ -28,6 +28,7 @@ BuildRequires:	freetype-devel
 BuildRequires:	harfbuzz-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	openssl-devel
+BuildRequires:  libsquish-devel
 
 Requires:		SDL2
 Requires:		libjpeg-turbo
@@ -44,6 +45,7 @@ Requires:		freetype
 Requires:		harfbuzz
 Requires:		fribidi
 Requires:		openssl
+Requires:       libsquish
 
 %description
 SuperTuxKart is a free kart racing game. It focuses on fun and not on realistic kart physics. Instructions can be found on the in-game help page.

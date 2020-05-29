@@ -1,2 +1,3 @@
 # Exclude buildirs
 */Build/*
+BUILD.LOG

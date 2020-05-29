@@ -3,7 +3,7 @@ Version:	2.34.0
 Release:	1%{?dist}
 Summary:	cross-platform scripting library
 
-Group:		Amusements/Games
+Group:		System Environment/Libraries
 License:	zlib License
 URL:		https://www.angelcode.com/angelscript/
 Source0:    https://www.angelcode.com/angelscript/sdk/files/angelscript_%{version}.zip
@@ -35,7 +35,7 @@ AngelScript development libraries
 
 %prep
 %setup -q -n sdk
-%patch0
+%patch0 -p 0
 
 %build
 cd angelscript/projects/cmake
@@ -46,7 +46,6 @@ make %{?_smp_mflags}
 %install
 cd angelscript/projects/cmake
 make install DESTDIR=%{buildroot}
-
 
 %files
 %doc
