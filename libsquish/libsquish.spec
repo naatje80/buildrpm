@@ -8,6 +8,7 @@ License:	GPLv2
 URL:        https://code.google.com/archive/p/libsquish
 Source0:    https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/libsquish/squish-%{version}.tar.gz	
 Patch0:     compile_shared.patch
+Patch1:     kColour.patch
 
 %package devel
 Summary:  development libraries for libsquish
@@ -28,6 +29,7 @@ Development libraries for libsquish
 %prep
 %setup -q -n squish-%{version}
 %patch0 -p 0
+%patch1 -p 0
 
 %build
 USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="/usr" make %{?_smp_mflags}
@@ -35,7 +37,7 @@ USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="/usr" make %{?_smp_mflags}
 
 %install
 mkdir -p %{buildroot}/usr/include
-mkdir -p %{buildroot}/usr/lib
+mkdir -p %{buildroot}/usr/lib64
 USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="\${DESTDIR}/usr" make install DESTDIR=%{buildroot}
 
 

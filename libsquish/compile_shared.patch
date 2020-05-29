@@ -16,8 +16,8 @@
  install : $(LIB)
  	install squish.h $(INSTALL_DIR)/include 
 -	install libsquish.a $(INSTALL_DIR)/lib
-+	install $(LIB) $(INSTALL_DIR)/lib
-+	ln -s /usr/lib/$(LIB) $(INSTALL_DIR)/lib/$(DEVEL_LIB)
++	install $(LIB) $(INSTALL_DIR)/lib64
++	ln -s /usr/lib64/$(LIB) $(INSTALL_DIR)/lib64/$(DEVEL_LIB)
  
  uninstall:
  	$(RM) $(INSTALL_DIR)/include/squish.h

@@ -28,6 +28,7 @@ BuildRequires:	freetype-devel
 BuildRequires:	harfbuzz-devel
 BuildRequires:	fribidi-devel
 BuildRequires:	openssl-devel
+BuildRequires:  angelscript-devel
 BuildRequires:  libsquish-devel
 
 Requires:		SDL2
@@ -46,6 +47,7 @@ Requires:		harfbuzz
 Requires:		fribidi
 Requires:		openssl
 Requires:       libsquish
+Requires:       angelscript
 
 %description
 SuperTuxKart is a free kart racing game. It focuses on fun and not on realistic kart physics. Instructions can be found on the in-game help page.
@@ -69,7 +71,7 @@ svn checkout https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
 cd stk-code
 mkdir build
 cd build
-%cmake ../ -DUSE_WIIUSE=OFF
+%cmake ../ -DUSE_WIIUSE=OFF -DCMAKE_BUILD_TYPE=Release -DUSE_SYSTEM_ANGELSCRIPT=ON  
 make %{?_smp_mflags}
 
 
