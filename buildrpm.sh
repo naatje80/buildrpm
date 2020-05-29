@@ -38,32 +38,32 @@ BUILDSCRIPT="""
 set -o pipefail
 spectool -R -g ~/rpmbuild/SPECS/${PACKAGE}.spec
 yum-builddep -y ~/rpmbuild/SPECS/${PACKAGE}.spec
-rpmbuild -bi ~/rpmbuild/SPECS/${PACKAGE}.spec
-if [[ \${?} -eq 0 ]]
+rpmbuild -bc ~/rpmbuild/SPECS/${PACKAGE}.spec
+if [[ \${?} -ne 0 ]]
 then
-    rpmbuild -bl ~/rpmbuild/SPECS/${PACKAGE}.spec 2>&1| sort -u| grep '^   '| grep -v '(but unpackaged)'| sed 's/^   //'|sed 's/^\(.*\)$/\"\1\"/' > /tmp/package_files.log
-    sed -i -e 's/\/usr\/bin\//%{_bindir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/sbin\//%{_sbindir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/lib64\//%{_libdir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/include\//%{_includedir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/libexec\//%{_libexecdir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/share\/man\//%{_mandir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/share\/info\//%{_infodir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/share\/doc\//%{_docdir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\/share\//%{_datadir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/etc\//%{_sysconfdir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/run\//%{_rundir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/var\/lib\//%{_sharedstate-dir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/var\//%{_localstate-dir}\//g' /tmp/package_files.log
-    sed -i -e 's/\/usr\//%{_exec_prefix}\//g' /tmp/package_files.log
-    cat /tmp/package_files.log|egrep -v -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/FILES.LOG
-    cat /tmp/package_files.log|egrep -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/DEVEL_FILES.LOG
-    sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
-    sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
-    rpmbuild -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
-else
     exit 1
 fi
+rpmbuild --short-circuit -bi ~/rpmbuild/SPECS/${PACKAGE}.spec
+rpmbuild -bl ~/rpmbuild/SPECS/${PACKAGE}.spec 2>&1| sort -u| grep '^   '| grep -v '(but unpackaged)'| sed 's/^   //'|sed 's/^\(.*\)$/\"\1\"/' > /tmp/package_files.log
+sed -i -e 's/\/usr\/bin\//%{_bindir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/sbin\//%{_sbindir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/lib64\//%{_libdir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/include\//%{_includedir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/libexec\//%{_libexecdir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/share\/man\//%{_mandir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/share\/info\//%{_infodir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/share\/doc\//%{_docdir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\/share\//%{_datadir}\//g' /tmp/package_files.log
+sed -i -e 's/\/etc\//%{_sysconfdir}\//g' /tmp/package_files.log
+sed -i -e 's/\/run\//%{_rundir}\//g' /tmp/package_files.log
+sed -i -e 's/\/var\/lib\//%{_sharedstate-dir}\//g' /tmp/package_files.log
+sed -i -e 's/\/var\//%{_localstate-dir}\//g' /tmp/package_files.log
+sed -i -e 's/\/usr\//%{_exec_prefix}\//g' /tmp/package_files.log
+cat /tmp/package_files.log|egrep -v -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/FILES.LOG
+cat /tmp/package_files.log|egrep -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/DEVEL_FILES.LOG
+sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
+sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
+rpmbuild -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
 """
 
 DOCKERFILE="""
@@ -92,7 +92,7 @@ echo "${BUILDSCRIPT}" > Build/build.sh; chmod +x Build/build.sh
 if [[ $(ls -l *.patch 2>/dev/null|wc -c) -ne 0 ]]
 then
     cp *.patch Build/
-    DOCKERFILE="${DOCKERFILE}COPY *.patch /root/rpmbuild/SOURCES"
+    DOCKERFILE="${DOCKERFILE}COPY *.patch /root/rpmbuild/SOURCES/"
 fi
 echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/
