@@ -1,5 +1,5 @@
 Name:           makemkv
-Version:        1.15.1
+Version:        1.15.2
 Release:        1%{?dist}
 Summary:        Video converter
 

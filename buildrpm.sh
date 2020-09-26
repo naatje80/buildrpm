@@ -61,8 +61,14 @@ sed -i -e 's/\/var\//%{_localstate-dir}\//g' /tmp/package_files.log
 sed -i -e 's/\/usr\//%{_exec_prefix}\//g' /tmp/package_files.log
 cat /tmp/package_files.log|egrep -v -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/FILES.LOG
 cat /tmp/package_files.log|egrep -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/DEVEL_FILES.LOG
+if [[ \$(grep -c '%files devel') -ne 0 ]]
+
+then
+    sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
+else
+    sed -i -e '/%files[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
+done
 sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
-sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
 rpmbuild --noclean -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
 """
 

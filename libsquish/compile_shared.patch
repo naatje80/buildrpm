@@ -1,6 +1,6 @@
 --- Makefile_org	2020-05-29 08:59:13.042722757 +0000
 +++ Makefile	2020-05-29 09:01:26.727929290 +0000
-@@ -5,21 +5,28 @@
+@@ -5,21 +5,27 @@
  
  OBJ = $(SRC:%.cpp=%.o)
  
@@ -18,7 +18,8 @@
  install : $(LIB)
  	install squish.h $(INSTALL_DIR)/include 
 -	install libsquish.a $(INSTALL_DIR)/lib
-+	install $(LIB) $(MAJOR_LIB) $(DEVEL_LIB) $(INSTALL_DIR)/lib64 
++	install $(LIB) $(INSTALL_DIR)/lib64
++	cd $(INSTALL_DIR)/lib64; ln -s $(LIB) $(DEVEL_LIB); ln -s $(LIB) $(MAJOR_LIB) 
  
  uninstall:
  	$(RM) $(INSTALL_DIR)/include/squish.h
@@ -27,9 +28,7 @@
  $(LIB) : $(OBJ)
 -	$(AR) cr $@ $?
 -	ranlib $@
-+	$(CXX) $(CPPFLAGS) -I. $(CXXFLAGS) $(OBJ) -shared -o $@
-+	ln -s $(LIB) $(MAJOR_LIB)
-+	ln -s $(LIB) $(DEVEL_LIB)
++	$(CXX) $(CPPFLAGS) -I. $(CXXFLAGS) $(OBJ) -Wl,-soname,$(MAJOR_LIB) -shared -o $@
  
  %.o : %.cpp
  	$(CXX) $(CPPFLAGS) -I. $(CXXFLAGS) -o$@ -c $<
