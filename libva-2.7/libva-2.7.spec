@@ -33,7 +33,7 @@ make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot}
-
+exit 1 
 
 %files
 %doc

@@ -49,7 +49,6 @@ make %{?_smp_mflags}
 %install
 make install DESTDIR=%{buildroot}
 
-
 %files
 
 %files devel

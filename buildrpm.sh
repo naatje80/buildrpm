@@ -63,7 +63,7 @@ cat /tmp/package_files.log|egrep -v -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"
 cat /tmp/package_files.log|egrep -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/DEVEL_FILES.LOG
 sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
 sed -i -e '/%files devel[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
-rpmbuild -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
+rpmbuild --noclean -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
 """
 
 DOCKERFILE="""
@@ -72,7 +72,8 @@ USER root
 VOLUME /${REPODIR}
 RUN ${INSTALL_CMD} -y groupinstall \"Development Tools\"; \
     ${INSTALL_CMD} -y install rpmdevtools yum-utils; \
-    yum-config-manager --enable PowerTools
+    yum-config-manager --enable PowerTools; \
+    yum -y update
 RUN mkdir -p ~/rpmbuild/{SPECS,SOURCES}; \
     echo -e '%debug_package %{nil}\n%_rpmdir   /${REPODIR}/RPMS\n%_srcrpmdir   /${REPODIR}/SRPMS\n%_builddir	/tmp/rpmbuild/BUILD\n%_buildrootdir /tmp/rpmbuild/BUILDROOT\n%_sourcedir    %(echo \$HOME)/rpmbuild/SOURCES\n%_specdir   %(echo \$HOME)/rpmbuild/SOURCES' > ~/.rpmmacros
 COPY ${PACKAGE}.spec /root/rpmbuild/SPECS

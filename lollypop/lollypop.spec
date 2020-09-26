@@ -7,7 +7,7 @@ Group:      Music
 License:    GPLv3
 URL:        https://wiki.gnome.org/Apps/Lollypop
 Source0:    https://adishatz.org/lollypop/lollypop-%{version}.tar.xz
-Patch0:     meson_build.patch
+#Patch0:     meson_build.patch
 
 BuildRequires:  cmake
 BuildRequires:  meson
@@ -49,7 +49,7 @@ It provides:
 
 %prep
 %setup -q
-%patch0 -p 0
+#%patch0 -p 0
 
 %build
 meson build --prefix /usr --libdir lib64 --backend ninja --buildtype release --strip --default-library shared

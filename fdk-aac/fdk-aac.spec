@@ -28,10 +28,12 @@ Development files for fdk-aac.
 %build
 autoreconf -fi
 %configure --enable-shared --disable-static
+
 make %{?_smp_mflags}
 
 %install
 make install DESTDIR=%{buildroot}
+exit 2
 
 %files
 

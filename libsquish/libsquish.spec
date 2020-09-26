@@ -10,11 +10,6 @@ Source0:    https://storage.googleapis.com/google-code-archive-downloads/v2/code
 Patch0:     compile_shared.patch
 Patch1:     kColour.patch
 
-%package devel
-Summary:  development libraries for libsquish
-
-Requires: libsquish
-
 %description
 The squish library (abbreviated to libsquish) is an open source DXT compression library written in C++ with the following features:
 
@@ -22,6 +17,10 @@ Supports the DXT1, DXT3 and DXT5 formats.
 Optimised for both SSE and Altivec SIMD instruction sets.
 Builds on multiple platforms (x86 and PPC tested).
 Very simple interface.
+
+%package devel
+Summary:  development libraries for libsquish
+Requires: libsquish
 
 %description devel
 Development libraries for libsquish
@@ -32,14 +31,12 @@ Development libraries for libsquish
 %patch1 -p 0
 
 %build
-USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="/usr" make %{?_smp_mflags}
-
+USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="$RPM_BUILD_ROOT/usr" make %{?_smp_mflags}
 
 %install
 mkdir -p %{buildroot}/usr/include
 mkdir -p %{buildroot}/usr/lib64
-USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="\${DESTDIR}/usr" make install DESTDIR=%{buildroot}
-
+USE_SSE=1 CXXFLAGS="-O2 -fPIC -g" INSTALL_DIR="$RPM_BUILD_ROOT/usr" make install
 
 %files
 %doc
