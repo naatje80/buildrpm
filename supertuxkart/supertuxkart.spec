@@ -71,6 +71,7 @@ svn checkout https://svn.code.sf.net/p/supertuxkart/code/stk-assets stk-assets
 cd stk-code
 mkdir build
 cd build
+exit 1
 %cmake ../ -DUSE_WIIUSE=OFF -DCMAKE_BUILD_TYPE=Release -DUSE_SYSTEM_ANGELSCRIPT=ON -DBUILD_EXAMPLE=OFF -DBUILD_EXAMPLE_SDL=OFF   
 make %{?_smp_mflags}
 
