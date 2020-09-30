@@ -1,5 +1,5 @@
 Name:       lollypop
-Version:    1.2.35
+Version:    1.4.0
 Release:    1%{?dist}
 Summary:    Lollypop is a new GNOME music playing application.
 
@@ -9,14 +9,13 @@ URL:        https://wiki.gnome.org/Apps/Lollypop
 Source0:    https://adishatz.org/lollypop/lollypop-%{version}.tar.xz
 #Patch0:     meson_build.patch
 
-BuildRequires:  cmake
 BuildRequires:  meson
 BuildRequires:  ninja-build
 BuildRequires:  python3-devel
 BuildRequires:  gobject-introspection-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  libsoup-devel
-BuildRequires:  pygobject3-devel
+BuildRequires:  python3-gobject-devel
 Requires: python3
 Requires: python3-gobject
 Requires: python3-pylast
