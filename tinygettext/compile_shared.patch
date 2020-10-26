@@ -1,0 +1,24 @@
+--- CMakeLists.txt      2020-09-27 17:02:12.850504315 +0000
++++ CMakeLists.txt_new  2020-09-27 15:21:05.110567335 +0000
+@@ -30,11 +30,12 @@
+ file(GLOB TINYGETTEXT_SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp)
+ file(GLOB TINYGETTEXT_HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} include/tinygettext/*.hpp)
+ 
+-add_library(tinygettext STATIC ${TINYGETTEXT_SOURCES})
++add_library(tinygettext SHARED ${TINYGETTEXT_SOURCES})
+ set_target_properties(tinygettext PROPERTIES
+   CXX_STANDARD 17
+   CXX_STANDARD_REQUIRED ON
+   CXX_EXTENSIONS OFF
++  VERSION "0.2.0"
+   PUBLIC_HEADER "${TINYGETTEXT_HEADERS}")
+ target_include_directories(tinygettext PUBLIC include/)
+ target_compile_options(tinygettext PRIVATE ${WARNINGS_CXX_FLAGS})
+@@ -73,6 +74,7 @@
+ 
+ install(TARGETS tinygettext
+   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME})
+ install(FILES ${tinygettext_BINARY_DIR}/tinygettext.pc
+   DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)

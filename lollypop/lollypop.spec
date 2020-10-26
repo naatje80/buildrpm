@@ -1,13 +1,12 @@
 Name:       lollypop
-Version:    1.4.0
+Version:    1.1.4.16
 Release:    1%{?dist}
 Summary:    Lollypop is a new GNOME music playing application.
 
 Group:      Music
 License:    GPLv3
 URL:        https://wiki.gnome.org/Apps/Lollypop
-Source0:    https://adishatz.org/lollypop/lollypop-%{version}.tar.xz
-#Patch0:     meson_build.patch
+Source0:    https://gitlab.gnome.org/World/lollypop/uploads/6b4e4e7a2c17f0770c1e2b3354ae5a3a/lollypop-%{version}.tar.xz
 
 BuildRequires:  meson
 BuildRequires:  ninja-build
@@ -48,11 +47,12 @@ It provides:
 
 %prep
 %setup -q
-#%patch0 -p 0
+
 
 %build
 meson build --prefix /usr --libdir lib64 --backend ninja --buildtype release --strip --default-library shared
 ninja-build -C build
+
 
 %install
 env DESTDIR=$RPM_BUILD_ROOT ninja-build -C build install

@@ -20,10 +20,13 @@ nm8 repo installatio
 mkdir -p  %{buildroot}/etc/yum.repos.d
 echo """[nm8repo]
 name=NM8 Repo
-baseurl=https://nm8.home.xs4all.nl/$basearch
+baseurl=https://nm8.home.xs4all.nl/CENTOS\$releasever
 gpgcheck=0
 enabled=1""" > %{buildroot}/etc/yum.repos.d/nm8.repo
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-nm8
+
+%post
+yum-config-manager --enable PowerTools
 
 %files
 
