@@ -8,8 +8,9 @@ License:	MIT Open Source License
 URL:		https://01.org/linuxmedia
 Source0:	https://github.com/intel/libva-utils/archive/%{version}.tar.gz
 
-BuildRequires:	autoconf which libva-2.7-devel
-Requires:       libva-2.7
+BuildRequires:	autoconf which libva-2.7-devel libXext-devel libXfixes-devel
+Requires:       libva-2.7 libXext libXfixes
+
 
 %description
 Libva is a library providing the VA API video acceleration API.
