@@ -8,15 +8,15 @@ License:	MIT Open Source License
 URL:		https://01.org/linuxmedia
 Source0:	https://github.com/intel/libva/archive/%{version}.tar.gz
 
-BuildRequires:	xorg-x11-server-devel autoconf which
-#Requires:	    
+BuildRequires:	xorg-x11-server-devel autoconf which libXext-devel libXfixes-devel
+Requires:	    libXext libXfixes
 
 %description
 Libva is a library providing the VA API video acceleration API.
 
 
 %package devel
-Summary:        Video Acceleration (VA) API development files
+Summary:        Video Acceleration (VA) API development files 
 Requires:       libva-2.7 xorg-x11-server-devel
 
 %description devel
@@ -27,13 +27,12 @@ Video Acceleration (VA) API development files
 
 %build
 NOCONFIGURE=1  ./autogen.sh
-%configure --libdir=%{_libdir}/%{name} --includedir=%{_includedir}/%{name}
+%configure --libdir=%{_libdir}/%{name} --includedir=%{_includedir}/%{name} --enable-x11
 make %{?_smp_mflags}
 
 
 %install
 make install DESTDIR=%{buildroot}
-exit 1 
 
 %files
 %doc

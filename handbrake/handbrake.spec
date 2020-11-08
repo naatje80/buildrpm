@@ -30,7 +30,7 @@ BuildRequires:  libass-devel
 BuildRequires:  libvorbis-devel
 
 Requires:	libdvdcss intel-media-sdk
-Requires:   libass libva-2.7 intel-media-sdk opus-devel libvpx x264 lame libsamplerate
+Requires:   libass libva-2.7 intel-media-sdk opus-devel libvpx x264 lame-libs libsamplerate
 
 Patch0:         contrib_defs.patch
 
@@ -43,7 +43,7 @@ HandBrake is a tool for converting video from nearly any format to a selection o
 
 %build
 export CFLAGS="-I%{_includedir}/libva-2.7"
-export LDFLAGS="-L%{_libdir}/libva-2.7 -Wl,-rpath,{_libdir}/libva-2.7"
+export LDFLAGS="-L%{_libdir}/libva-2.7 -Wl,-rpath,%{_libdir}/libva-2.7"
 export PKG_CONFIG_PATH=%{_libdir}/libva-2.7/pkgconfig
 %configure --enable-qsv
 cd %{_build}

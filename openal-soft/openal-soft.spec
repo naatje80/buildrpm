@@ -1,5 +1,5 @@
 Name:		openal-soft
-Version:	1.20.1
+Version:	1.21.0
 Release:	1%{?dist}
 Summary:	Cross-platform, software implementation of the OpenAL 3D audio API
 
@@ -9,6 +9,11 @@ URL:		https://openal-soft.org/
 Source0:    https://openal-soft.org/openal-releases/openal-soft-%{version}.tar.bz2
 
 BuildRequires:	cmake
+BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  zlib-devel
+
+Requires:   pulseaudio-libs
+Requires:   zlib
 
 %package devel
 Summary:    OpenAL Soft development libraries

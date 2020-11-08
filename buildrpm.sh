@@ -106,11 +106,11 @@ cd Build
 docker build -t ${PACKAGE} .
 if [[ ${?} == 0 ]]
 then
-    #docker run --rm -l ${PACKAGE}-build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
-    docker run --name=${PACKAGE}-build -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
-        ( createrepo -v --update /mnt/Sys/repo/rpmbuild/${REPODIR}; docker rm ${PACKAGE}-build ) ||
+    #docker run --rm -l ${PACKAGE}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
+    docker run --name=${PACKAGE}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
+        ( createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}; docker rm ${PACKAGE}-build ) ||
         ( echo -e "\n############################################################\nERROR Compiling: ${PACKAGE}, opening docker for debugging....\n############################################################";
             docker commit ${PACKAGE}-build debug-container; 
-            docker rm ${PACKAGE}-build; docker run --rm -ti -v /mnt/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
+            docker rm ${PACKAGE}-build; docker run --rm -ti -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
         #find -type f -newerct "${START}" -exec  && 
 fi
