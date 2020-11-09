@@ -21,7 +21,7 @@ ar -xv %{SOURCE0}
 tar -xvf data.tar.xz
 
 %install
-for file in `find usr/ -type f -and -l`
+for file in `find usr/ -type f -or -type l`
 do
         install -D $file %{buildroot}/$file
 done
