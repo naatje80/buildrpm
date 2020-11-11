@@ -26,6 +26,8 @@ BuildRequires: alsa-lib-devel(x86-64) alsa-lib-devel(x86-32)
 BuildRequires: mesa-libGL-devel(x86-64) mesa-libGL-devel(x86-32)
 BuildRequires: mesa-libGLU-devel(x86-64) mesa-libGLU-devel(x86-32)
 BuildRequires: mesa-libOSMesa-devel(x86-64) mesa-libOSMesa-devel(x86-32) 
+BuildRequires: libXrandr-devel(x86-64) libXrandr-devel(x86-32)
+BuildRequires: libXinerama-devel(x86-64) libXinerama-devel(x86-32)
 
 Requires: libX11(x86-64) libX11(x86-32)
 Requires: freetype(x86-64) freetype(x86-32)
@@ -44,6 +46,9 @@ Requires: alsa-lib(x86-64) alsa-lib(x86-32)
 Requires: mesa-libGL(x86-64) mesa-libGL(x86-32)
 Requires: mesa-libGLU(x86-64) mesa-libGLU(x86-32)
 Requires: mesa-libOSMesa(x86-64) mesa-libOSMesa(x86-32) 
+Requires: mesa-dri-drivers(x86-64) mesa-dri-drivers(x86-32)
+Requires: libXrandr(x86-64) libXrandr(x86-32)
+Requires: libXinerama(x86-64) libXinerama(x86-32)
 
 %description
 Wine as a compatibility layer for UNIX to run Windows applications. This

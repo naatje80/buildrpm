@@ -9,7 +9,6 @@ URL:		https://github.com/intel/gmmlib
 Source0:	https://github.com/intel/gmmlib/archive/intel-gmmlib-%{version}.tar.gz
 
 BuildRequires:	cmake
-#Requires:	
 
 %description
 The Intel(R) Graphics Memory Management Library provides device specific and buffer management for the Intel(R) Graphics Compute Runtime for OpenCL(TM) and the Intel(R) Media Driver for VAAPI.

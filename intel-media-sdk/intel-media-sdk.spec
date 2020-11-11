@@ -17,8 +17,7 @@ Intel® Media SDK provides a plain C API to access hardware-accelerated video de
 Supported video encoders: HEVC, AVC, MPEG-2, JPEG, VP9 Supported video decoders: HEVC, AVC, VP8, VP9, MPEG-2, VC1, JPEG Supported video pre-processing filters: Color Conversion, Deinterlace, Denoise, Resize, Rotate, Comp
 
 %package devel
-Summary:        Intel® Media SDK development files development files
-#Requires:       
+Summary:        Intel® Media SDK development files development files      
 
 %description devel
 Intel® Media SDK development files
@@ -33,12 +32,13 @@ export PKG_CONFIG_PATH=%{_libdir}/libva-2.7/pkgconfig${PKG_CONFIG_PATH}
 %cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SAMPLES=OFF -DBUILD_TUTORIALS=OFF ../
 make %{?_smp_mflags}
 
-
 %install
 cd Build
 make install DESTDIR=%{buildroot}
 
 %files
+%{_libdir}/*.so
+%{_libdir}/mfx/*.so
 %doc
 
 %files devel
