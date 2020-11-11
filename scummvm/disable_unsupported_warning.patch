@@ -1,0 +1,11 @@
+--- base/commandLine.cpp_org	2018-03-14 13:40:17.162141578 +0100
++++ base/commandLine.cpp	2018-03-14 13:40:30.505138030 +0100
+@@ -223,7 +223,7 @@
+ 
+ 	ConfMan.registerDefault("cdrom", 0);
+ 
+-	ConfMan.registerDefault("enable_unsupported_game_warning", true);
++	ConfMan.registerDefault("enable_unsupported_game_warning", false);
+ 
+ 	// Game specific
+ 	ConfMan.registerDefault("path", "");
