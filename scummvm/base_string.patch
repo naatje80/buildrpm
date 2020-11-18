@@ -1,0 +1,11 @@
+--- common/base-str.cpp_org	2020-11-15 22:29:50.670175513 +0100
++++ common/base-str.cpp	2020-11-15 22:30:03.789161918 +0100
+@@ -711,8 +711,6 @@
+ #endif
+ 
+ TEMPLATE void BASESTRING::assignAppend(value_type c) {
+-	if (c == 0)
+-		return;
+ 	ensureCapacity(_size + 1, true);
+ 
+ 	_str[_size++] = c;

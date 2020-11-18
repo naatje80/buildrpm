@@ -1,6 +1,7 @@
 #! /bin/sh
 
 PACKAGE=$(basename ${1} .spec)
+DOCKERNAME=$(echo ${PACKAGE}|tr "[:upper:]" "[:lower:]")
 OS=${2}
 
 START=$(date)
@@ -103,14 +104,14 @@ fi
 echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/
 cd Build
-docker build -t ${PACKAGE} .
+docker build -t ${DOCKERNAME} .
 if [[ ${?} == 0 ]]
 then
     #docker run --rm -l ${PACKAGE}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
-    docker run --name=${PACKAGE}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
-        ( createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}; docker rm ${PACKAGE}-build ) ||
+    docker run --name=${DOCKERNAME}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${DOCKERNAME} sh ./build.sh &&
+        ( createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}; docker rm ${DOCKERNAME}-build ) ||
         ( echo -e "\n############################################################\nERROR Compiling: ${PACKAGE}, opening docker for debugging....\n############################################################";
-            docker commit ${PACKAGE}-build debug-container; 
-            docker rm ${PACKAGE}-build; docker run --rm -ti -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
+            docker commit ${DOCKERNAME}-build debug-container; 
+            docker rm ${DOCKERNAME}-build; docker run --rm -ti -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
         #find -type f -newerct "${START}" -exec  && 
 fi

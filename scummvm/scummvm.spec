@@ -9,7 +9,7 @@ Group:		Gaming
 License:	GPlv2.1
 URL:		http://www.scummvm.org		
 
-BuildRequires:	SDL-devel
+BuildRequires:	SDL2-devel
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  libmad-devel
 BuildRequires:	libpng-devel
@@ -18,8 +18,11 @@ BuildRequires:  freetype-devel
 BuildRequires:	flac-devel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	libmpeg2-devel
+BuildRequires:	liba52-devel
+BuildRequires:	fluidsynth-devel
+BuildRequires:	libtheora-devel
 
-Requires:	SDL
+Requires:	SDL2
 Requires:  	libjpeg-turbo
 Requires:  	libmad
 Requires:	libpng
@@ -28,9 +31,13 @@ Requires:  	freetype
 Requires:	flac-libs
 Requires:	alsa-lib
 Requires:	libmpeg2
+Requires:	liba52
+Requires:	fluidsynth-libs
+Requires:	libtheora
 
 Patch0:		disable_unsupported_warning.patch
 Patch1:		remove_subtile_warning.patch
+Patch2:     	base_string.patch
 
 %description
 ScummVM is a program which allows you to run certain classic graphical
@@ -45,6 +52,7 @@ git clone --depth 1 https://github.com/scummvm/scummvm.git
 cd scummvm
 %patch0 -p 0
 %patch1 -p 0
+%patch2 -p 0
 
 %build
 export CXX=g++
@@ -57,7 +65,7 @@ make %{?_smp_mflags}
 %install
 cd %{_builddir}/scummvm
 make install DESTDIR=%{buildroot}
-
+strip %{buildroot}/usr/bin/scummvm
 
 %files
 %doc
