@@ -1,0 +1,17 @@
+--- data/meson.build_org	2020-11-22 14:52:21.750977156 +0000
++++ data/meson.build	2020-11-22 14:54:07.672976752 +0000
+@@ -5,13 +5,7 @@
+ install_data ('icons' / 'hicolor' / 'symbolic' / 'org.gnome.Mahjongg-symbolic.svg',
+               install_dir: hicolordir / 'symbolic' / 'apps')
+ 
+-schemasdir = gio_dep.get_pkgconfig_variable(
+-  'schemasdir',
+-  define_variable : [
+-    'datadir',
+-    get_option('datadir')
+-  ]
+-)
++schemasdir = join_paths (datadir, 'glib-2.0', 'schemas')
+ 
+ install_data ('org.gnome.Mahjongg.gschema.xml',
+               install_dir: schemasdir)
