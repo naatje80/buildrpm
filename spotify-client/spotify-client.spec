@@ -41,8 +41,8 @@ mkdir -p usr/share/applications
 mv usr/share/spotify/spotify.desktop usr/share/applications
 for SIZE in {512,256,128,64,48,32,24,22,16}
 do
-    mkdir -p usr/share/icons/hicolor/${SIZE}x${SIZE}
-    mv usr/share/spotify/icons/spotify-linux-${SIZE}.png usr/share/icons/hicolor/${SIZE}x${SIZE}/spotify-client.png
+    mkdir -p usr/share/icons/hicolor/${SIZE}x${SIZE}/apps
+    mv usr/share/spotify/icons/spotify-linux-${SIZE}.png usr/share/icons/hicolor/${SIZE}x${SIZE}/apps/spotify-client.png
 done
 chmod 0755 %{buildroot}%{_datadir}/spotify/libcef.so 
 
