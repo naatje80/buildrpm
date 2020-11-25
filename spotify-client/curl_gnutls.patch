@@ -1,0 +1,60 @@
+diff -Naur curl-7.73.0_org/lib/libcurl.vers.in curl-7.73.0/lib/libcurl.vers.in
+--- curl-7.73.0_org/lib/libcurl.vers.in	2020-08-07 17:38:12.000000000 +0200
++++ curl-7.73.0/lib/libcurl.vers.in	2020-11-25 13:20:03.204424944 +0100
+@@ -6,7 +6,7 @@
+     _save*;
+ };
+ 
+-CURL_@CURL_LT_SHLIB_VERSIONED_FLAVOUR@4
++CURL_@CURL_LT_SHLIB_VERSIONED_FLAVOUR@3
+ {
+   global: curl_*;
+   local: *;
+diff -Naur curl-7.73.0_org/lib/Makefile.in curl-7.73.0/lib/Makefile.in
+--- curl-7.73.0_org/lib/Makefile.in	2020-10-13 23:50:37.000000000 +0200
++++ curl-7.73.0/lib/Makefile.in	2020-11-25 13:18:35.910181742 +0100
+@@ -952,7 +952,7 @@
+  firefox-db2pem.sh config-vxworks.h Makefile.vxworks checksrc.pl    \
+  setup-win32.h
+ 
+-lib_LTLIBRARIES = libcurl.la
++lib_LTLIBRARIES = libcurl-gnutls.la
+ @BUILD_UNITTESTS_FALSE@noinst_LTLIBRARIES = 
+ @BUILD_UNITTESTS_TRUE@noinst_LTLIBRARIES = libcurlu.la
+ 
+@@ -1256,7 +1256,7 @@
+ vssh/libcurl_la-wolfssh.lo: vssh/$(am__dirstamp) \
+ 	vssh/$(DEPDIR)/$(am__dirstamp)
+ 
+-libcurl.la: $(libcurl_la_OBJECTS) $(libcurl_la_DEPENDENCIES) $(EXTRA_libcurl_la_DEPENDENCIES) 
++libcurl-gnutls.la: $(libcurl_la_OBJECTS) $(libcurl_la_DEPENDENCIES) $(EXTRA_libcurl_la_DEPENDENCIES) 
+ 	$(AM_V_CCLD)$(libcurl_la_LINK) -rpath $(libdir) $(libcurl_la_OBJECTS) $(libcurl_la_LIBADD) $(LIBS)
+ vauth/libcurlu_la-cleartext.lo: vauth/$(am__dirstamp) \
+ 	vauth/$(DEPDIR)/$(am__dirstamp)
+diff -Naur curl-7.73.0_org/src/Makefile.in curl-7.73.0/src/Makefile.in
+--- curl-7.73.0_org/src/Makefile.in	2020-10-13 23:50:37.000000000 +0200
++++ curl-7.73.0/src/Makefile.in	2020-11-25 13:18:35.911181745 +0100
+@@ -253,9 +253,9 @@
+ am_curl_OBJECTS = $(am__objects_8)
+ curl_OBJECTS = $(am_curl_OBJECTS)
+ @USE_EXPLICIT_LIB_DEPS_FALSE@curl_DEPENDENCIES =  \
+-@USE_EXPLICIT_LIB_DEPS_FALSE@	$(top_builddir)/lib/libcurl.la
++@USE_EXPLICIT_LIB_DEPS_FALSE@	$(top_builddir)/lib/libcurl-gnutls.la
+ @USE_EXPLICIT_LIB_DEPS_TRUE@curl_DEPENDENCIES =  \
+-@USE_EXPLICIT_LIB_DEPS_TRUE@	$(top_builddir)/lib/libcurl.la
++@USE_EXPLICIT_LIB_DEPS_TRUE@	$(top_builddir)/lib/libcurl-gnutls.la
+ curl_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+ 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+ 	$(curl_LDFLAGS) $(LDFLAGS) -o $@
+@@ -823,8 +823,8 @@
+ 
+ # CURL_FILES comes from Makefile.inc
+ curl_SOURCES = $(CURL_FILES)
+-@USE_EXPLICIT_LIB_DEPS_FALSE@curl_LDADD = $(top_builddir)/lib/libcurl.la @LIBMETALINK_LIBS@ @NSS_LIBS@ @SSL_LIBS@ @ZLIB_LIBS@ @CURL_NETWORK_AND_TIME_LIBS@
+-@USE_EXPLICIT_LIB_DEPS_TRUE@curl_LDADD = $(top_builddir)/lib/libcurl.la @LIBMETALINK_LIBS@ @LIBCURL_LIBS@
++@USE_EXPLICIT_LIB_DEPS_FALSE@curl_LDADD = $(top_builddir)/lib/libcurl-gnutls.la @LIBMETALINK_LIBS@ @NSS_LIBS@ @SSL_LIBS@ @ZLIB_LIBS@ @CURL_NETWORK_AND_TIME_LIBS@
++@USE_EXPLICIT_LIB_DEPS_TRUE@curl_LDADD = $(top_builddir)/lib/libcurl-gnutls.la @LIBMETALINK_LIBS@ @LIBCURL_LIBS@
+ curl_LDFLAGS = @LIBMETALINK_LDFLAGS@
+ curl_CPPFLAGS = $(AM_CPPFLAGS) $(LIBMETALINK_CPPFLAGS)
+ 
+
