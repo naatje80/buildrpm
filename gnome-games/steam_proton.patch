@@ -1,0 +1,16 @@
+--- plugins/steam/src/steam-uri-source.vala_org	2020-11-29 18:14:30.548962631 +0000
++++ plugins/steam/src/steam-uri-source.vala	2020-11-29 18:15:34.984962385 +0000
+@@ -46,6 +46,13 @@
+ 				if (/^\d+$/.match (child))
+ 					add_library (library_reg.get_data ({ "LibraryFolders", child }));
+ 		}
++
++		// Only entries that contain names are actual games.
++		// Others are DLC or tools like Proton.
++		if (name == null || !installed)
++			continue;
++
++
+ 	}
+ 
+ 	public UriIterator iterator () {

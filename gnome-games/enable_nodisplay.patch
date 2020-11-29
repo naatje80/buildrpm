@@ -1,0 +1,11 @@
+--- plugins/desktop/src/desktop-plugin.vala_org	2020-11-29 18:06:46.357964401 +0000
++++ plugins/desktop/src/desktop-plugin.vala	2020-11-29 18:07:41.205964192 +0000
+@@ -81,8 +81,6 @@
+ 	}
+ 
+ 	private static void check_displayability (DesktopAppInfo app_info) throws Error {
+-		if (app_info.get_nodisplay ())
+-			throw new DesktopError.BLACKLISTED_GAME (_("“%s” shouldn’t be displayed."), app_info.filename);
+ 
+ 		if (app_info.get_is_hidden ())
+ 			throw new DesktopError.BLACKLISTED_GAME (_("“%s” is hidden."), app_info.filename);

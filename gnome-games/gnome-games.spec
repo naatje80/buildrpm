@@ -9,6 +9,8 @@ Group:		Games
 License:	GPLv3
 URL:		https://wiki.gnome.org/Apps/Games
 Source0:	https://gitlab.gnome.org/GNOME/gnome-games/-/archive/%{version}/gnome-games-%{version}.tar.bz2
+Patch0:     enable_nodisplay.patch
+Patch1:     steam_proton.patch
 
 BuildRequires:	meson
 BuildRequires:  vala
@@ -30,7 +32,8 @@ Games is a GNOME application to browse your local video games library and to eas
 
 %prep
 %setup -q
-
+%patch0 -p 0
+%patch1 -p 0
 
 %build
 meson build --prefix /usr --libdir lib64 --backend ninja --buildtype release --strip --default-library shared \
