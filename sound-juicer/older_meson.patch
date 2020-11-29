@@ -1,0 +1,20 @@
+--- src/meson.build_org	2020-11-28 17:10:08.333995388 +0000
++++ src/meson.build	2020-11-28 17:10:44.387995251 +0000
+@@ -26,6 +26,6 @@
+     sources,
+     link_with: libjuicer,
+     dependencies: deps,
+-    include_directories: [top_inc, '../libjuicer'],
++    include_directories: include_directories('../', '../libjuicer'),
+     install: true,
+ )
+--- tests/meson.build_org	2020-11-28 17:12:41.620994803 +0000
++++ tests/meson.build	2020-11-28 17:11:17.099995126 +0000
+@@ -2,6 +2,6 @@
+   'mb-test',
+   'mb-test.c',
+   link_with: libjuicer,
+-  include_directories: [top_inc, '../libjuicer'],
++  include_directories: include_directories('../', '../libjuicer'),
+   dependencies: deps,
+ )
