@@ -1,0 +1,23 @@
+--- plugins/steam/src/steam-plugin.vala_org	2020-11-30 14:30:33.459156641 +0100
++++ plugins/steam/src/steam-plugin.vala	2020-11-30 15:39:17.396982047 +0100
+@@ -59,6 +59,7 @@
+ 
+ 	private static Game game_for_steam_uri (Uri uri) throws Error {
+ 		return create_game (uri, "steam", "", { "steam" });
++			
+ 	}
+ 
+ 	private static Game game_for_flatpak_steam_uri (Uri uri) throws Error {
+@@ -83,7 +84,11 @@
+ 		var title = new SteamTitle (registry);
+ 		var icon = new SteamIcon (app_id, game_id);
+ 		var cover = new SteamCover (game_id);
+-
++		
++		var name = title.get_title ();
++		if( /Proton \d\.\d/.match ( name ) || name == "Steam Linux Runtime - Soldier" || name == "Steamworks Common Redistributables")
++			throw new SteamError.NO_NAME (_("Skipping %s"), name);
++			
+ 		string[] args = {};
+ 		foreach (var part in command)
+ 			args += part;

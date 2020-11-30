@@ -10,7 +10,7 @@ License:	GPLv3
 URL:		https://wiki.gnome.org/Apps/Games
 Source0:	https://gitlab.gnome.org/GNOME/gnome-games/-/archive/%{version}/gnome-games-%{version}.tar.bz2
 Patch0:     enable_nodisplay.patch
-Patch1:     steam_proton.patch
+Patch1:     ignore_proton.patch
 
 BuildRequires:	meson
 BuildRequires:  vala
@@ -18,10 +18,11 @@ BuildRequires:  grilo-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  libmanette-devel
 BuildRequires:  retro-gtk-devel
-BuildRequires:  librsvg2-devel
 BuildRequires:  libsoup-devel
 BuildRequires:  sqlite-devel
 BuildRequires:  tracker-devel
+BuildRequires:  librsvg2-devel
+BuildRequires:  wget
 
 Requires:	    retro-gtk
 Requires:       librsvg2
