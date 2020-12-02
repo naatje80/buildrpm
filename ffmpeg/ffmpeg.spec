@@ -18,6 +18,7 @@ BuildRequires:  lame-devel
 BuildRequires:  libtheora-devel
 BuildRequires:  SDL-devel
 BuildRequires:  libvorbis-devel
+
 Requires:       x264
 Requires:       x265
 Requires:       libvpx

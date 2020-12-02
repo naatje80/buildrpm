@@ -1,5 +1,5 @@
 Name:		vlc
-Version:	3.0.10
+Version:	3.0.11
 Release:	1%{?dist}
 Summary:	VLC media player
 
@@ -8,37 +8,57 @@ License:	GPLv2
 URL:		www.videolan.org
 Source0:	http://get.videolan.org/vlc/%{version}/vlc-%{version}.tar.xz
 
+BuildRequires:	ffmpeg-devel
 BuildRequires:	lua-devel
-BuildRequires:	yasm
-BuildRequires:	libva-devel
-BuildRequires:	libass-devel
-BuildRequires:	libkate-devel
-BuildRequires:	libbluray-devel
-BuildRequires:	libdvdnav-devel
-BuildRequires:	libcddb-devel
-BuildRequires:	libmodplug-devel
-BuildRequires:	libvorbis-devel
-BuildRequires:	zlib-devel
-BuildRequires:	dbus-devel
-BuildRequires:	lua-devel
-BuildRequires:	zvbi
-BuildRequires:	libdvdread-devel
-BuildRequires:	libdc1394-devel
+BuildRequires:	liba52-devel
 BuildRequires:	libxcb-devel
-BuildRequires:	xcb-util-devel
-BuildRequires:	libxml2-devel
-BuildRequires:	mesa-libGLU-devel
-BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	alsa-lib-devel
-BuildRequires:	libgcrypt-devel
-BuildRequires:	qt-devel
+BuildRequires:	qt5-devel
+BuildRequires:	libdvdread-devel
+BuildRequires:	libdvdnav-devel
+BuildRequires:	gtk3-devel
+BuildRequires:	libnotify-devel
+BuildRequires:	dbus-devel
+BuildRequires:	libogg-devel
+BuildRequires:	libbluray-devel
+BuildRequires:	opus-devel
+BuildRequires:	libvorbis-devel
+BuildRequires:	flac-devel
+BuildRequires:	libtheora-devel
+BuildRequires:	x264-devel
+BuildRequires:	x265-devel
+BuildRequires:	libmpeg2-devel
+BuildRequires:	libcddb-devel 
+BuildRequires:	libmpg123-devel
+BuildRequires:	systemd-devel
 BuildRequires:  xcb-util-keysyms-devel
-BuildRequires:	qt5-qtx11extras-devel
-BuildRequires:	libdvbpsi-devel
-BuildRequires:	v4l-utils
-BuildRequires:  liba52-devel
+BuildRequires:  speex-devel
+BuildRequires:  speexdsp-devel
+BuildRequires:  libmatroska-devel
 
-Requires:	libdvdcss
+Requires:	ffmpeg
+Requires:	liba52
+Requires:	libxcb
+Requires:	alsa-lib
+Requires:	qt5-qtbase
+Requires:	libdvdread
+Requires:	libdvdnav
+Requires:	libnotify
+Requires:	libogg
+Requires:	libbluray
+Requires:	opus
+Requires:	libvorbis
+Requires:	flac
+Requires:	libtheora
+Requires:	x264
+Requires:	x265
+Requires:	libmpeg2
+Requires:	libcddb
+Requires:	libmpg123
+Requires:   xcb-util-keysyms
+Requires:   speex
+Requires:   speexdsp
+Requires:   libmatroska
 
 %description
 VLC is a free and open source cross-platform multimedia player and framework that plays most multimedia files, and various streaming protocols. 
@@ -55,8 +75,8 @@ VLC development files.
 
 
 %build
-export PATH=/opt/rh/devtoolset-4/root/bin:$PATH
-%configure --enable-release
+autoreconf -fi
+%configure
 make %{?_smp_mflags}
 
 
@@ -65,8 +85,5 @@ make install DESTDIR=%{buildroot}
 
 
 %files
-
-%files devel
-
 
 %changelog

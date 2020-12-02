@@ -1,11 +1,13 @@
---- common/base-str.cpp_org	2020-11-15 22:29:50.670175513 +0100
-+++ common/base-str.cpp	2020-11-15 22:30:03.789161918 +0100
-@@ -711,8 +711,6 @@
- #endif
+--- engines/mohawk/myst_areas.cpp_org	2020-11-29 08:53:59.365509021 +0100
++++ engines/mohawk/myst_areas.cpp	2020-11-29 08:54:40.650965609 +0100
+@@ -189,7 +189,9 @@
+ 		_videoFile += c;
+ 	} while (c);
  
- TEMPLATE void BASESTRING::assignAppend(value_type c) {
--	if (c == 0)
--		return;
- 	ensureCapacity(_size + 1, true);
+-	rlstStream->skip(_videoFile.size() & 1);
++	if (!(_videoFile.size() & 1)) {
++		rlstStream->skip(1);
++	}
  
- 	_str[_size++] = c;
+ 	// Trim method does not remove extra trailing nulls
+ 	while (_videoFile.size() != 0 && _videoFile.lastChar() == 0)
