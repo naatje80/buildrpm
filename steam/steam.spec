@@ -11,6 +11,10 @@ URL:		https://store.steampowered.com/
 Source0:	https://steamcdn-a.akamaihd.net/client/installer/steam.deb
 
 Requires:	wmctrl
+Requires:       glibc(x86-32)
+Requires:       libglvnd-glx(x86-32)
+Requires:       libnsl(x86-32)
+Requires:       mesa-dri-drivers(x86-32)
 
 %description
 Steam is the ultimate destination for playing, discussing, and creating games.
