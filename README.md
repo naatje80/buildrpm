@@ -2,12 +2,13 @@
 _The rpmbuild scipt is setup to enable rpms to be build in a separate docker
 The advantage is:_
 * _It keeps your main system clean of any development libraries_
-* _Software is not compelid with unnecessary features/options, because previous instalaltion of development libraries_
+* _Software is not compiled with unnecessary features/options, because previous installations of development files_
 * _It will open the docker in interactive mode, in case the build fails at any given point. This allows one to debug the issue, before restarting the build procedure_
+* _The build process will automatically check which files need to be added to the rpms. Currently only normal files and development files are supported_
 
 _The repository also contains the spec files for applications that I've currently build using this software_
 
-## Preparation
+## Preparation Centos 7
 1. Install docker using your distros package manager. For Centos this could be installed using: 
 `sudo yum -y install docker`
 1. Create a group called docker:
@@ -18,6 +19,10 @@ _The repository also contains the spec files for applications that I've currentl
 `sudo systemctl restart docker`
 1. Either restart your session or execute: 
 `newgrp docker`
+
+## Preparation Centos 8
+1. Centos8 default supports podman instead of docker. But the podman-docker rpm allows enable docker command support for podman. One additional advantage is no additional configuration is required to allow users to run containers. To install podman-docker execute:
+`sudo dnf -y install podman-docker`
 
 ## Download rpmbuild
 Clone the project using git:
