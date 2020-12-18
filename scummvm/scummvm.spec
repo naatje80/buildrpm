@@ -37,7 +37,7 @@ Requires:	libtheora
 
 Patch0:		disable_unsupported_warning.patch
 Patch1:		remove_subtile_warning.patch
-Patch2:     	base_string.patch
+#Patch2:     	base_string.patch
 
 %description
 ScummVM is a program which allows you to run certain classic graphical
@@ -52,7 +52,7 @@ git clone --depth 1 https://github.com/scummvm/scummvm.git
 cd scummvm
 %patch0 -p 0
 %patch1 -p 0
-%patch2 -p 0
+#%patch2 -p 0
 
 %build
 export CXX=g++
