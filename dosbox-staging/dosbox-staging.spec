@@ -1,5 +1,5 @@
 Name:    dosbox-staging
-Version: 0.75.2
+Version: 0.76.0
 Release: 1%{?dist}
 Summary: DOS/x86 emulator focusing on ease of use
 License: GPLv2+
@@ -20,9 +20,10 @@ BuildRequires: opusfile-devel
 BuildRequires: librsvg2-tools
 BuildRequires: desktop-file-utils
 BuildRequires: libappstream-glib
+BuildRequires: fluidsynth-devel
 
 Requires: hicolor-icon-theme
-
+Requires: fluidsynth
 
 %description
 DOSBox Staging is full x86 CPU emulator (independent of host architecture),
