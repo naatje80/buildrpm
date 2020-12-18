@@ -1,5 +1,5 @@
 Name:           makemkv
-Version:        1.15.3
+Version:        1.15.4
 Release:        1%{?dist}
 Summary:        Video converter
 
@@ -8,9 +8,9 @@ License:        Non Free
 URL:            http://www.makemkv.com
 Source0:        http://www.makemkv.com/download/makemkv-oss-%{version}.tar.gz
 Source1:        http://www.makemkv.com/download/makemkv-bin-%{version}.tar.gz
-Patch0:        accept_license.patch
+Patch0:         accept_license.patch
 
-BuildRequires:  which zlib-devel openssl-devel expat-devel ffmpeg-devel qt5-base-devel
+BuildRequires:  which zlib-devel openssl-devel expat-devel ffmpeg-devel qt5-qtbase-devel
 Requires:       zlib openssl expat ffmpeg qt5-qtbase
 
 %description
