@@ -58,7 +58,6 @@ sed -i -e 's/\/usr\/share\//%{_datadir}\//g' /tmp/package_files.log
 sed -i -e 's/\/etc\//%{_sysconfdir}\//g' /tmp/package_files.log
 sed -i -e 's/\/run\//%{_rundir}\//g' /tmp/package_files.log
 sed -i -e 's/\/var\/lib\//%{_sharedstate-dir}\//g' /tmp/package_files.log
-sed -i -e 's/\/var\//%{_localstate-dir}\//g' /tmp/package_files.log
 sed -i -e 's/\/usr\//%{_exec_prefix}\//g' /tmp/package_files.log
 cat /tmp/package_files.log|egrep -v -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/FILES.LOG
 cat /tmp/package_files.log|egrep -e '*[.]cmake\"$|*[.]so\"$|*[.]h\"$|*[.]pc\"$' > /tmp/DEVEL_FILES.LOG
@@ -76,15 +75,15 @@ DOCKERFILE="""
 FROM ${OS}
 USER root
 VOLUME /${REPODIR}
-RUN ${INSTALL_CMD} -y groupinstall \"Development Tools\"; \
+RUN yum -y update; \
+    ${INSTALL_CMD} -y groupinstall \"Development Tools\"; \
     ${INSTALL_CMD} -y install rpmdevtools yum-utils; \
-    yum-config-manager --enable PowerTools; \
-    yum -y update
+    yum-config-manager --enable powertools 
 RUN mkdir -p ~/rpmbuild/{SPECS,SOURCES}; \
     echo -e '%debug_package %{nil}\n%_rpmdir   /${REPODIR}/RPMS\n%_srcrpmdir   /${REPODIR}/SRPMS\n%_builddir	/tmp/rpmbuild/BUILD\n%_buildrootdir /tmp/rpmbuild/BUILDROOT\n%_sourcedir    %(echo \$HOME)/rpmbuild/SOURCES\n%_specdir   %(echo \$HOME)/rpmbuild/SOURCES' > ~/.rpmmacros
 COPY ${PACKAGE}.spec /root/rpmbuild/SPECS
 WORKDIR /root/rpmbuild
-RUN echo -e '[localrepo]\nname=localrepo\nbaseurl=file:///CENTOS8\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/local.repo 
+RUN echo -e '[localrepo]\nname=localrepo\nbaseurl=file:///CENTOS8/RPMS\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/local.repo 
 COPY build.sh /root/rpmbuild
 """
 
@@ -109,7 +108,8 @@ if [[ ${?} == 0 ]]
 then
     #docker run --rm -l ${PACKAGE}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
     docker run --name=${DOCKERNAME}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${DOCKERNAME} sh ./build.sh &&
-        ( createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}; docker rm ${DOCKERNAME}-build ) ||
+        ( createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}/RPMS; createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}/SRPMS; \
+            docker rm ${DOCKERNAME}-build ) ||
         ( echo -e "\n############################################################\nERROR Compiling: ${PACKAGE}, opening docker for debugging....\n############################################################";
             docker commit ${DOCKERNAME}-build debug-container; 
             docker rm ${DOCKERNAME}-build; docker run --rm -ti -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} debug-container /bin/bash )
