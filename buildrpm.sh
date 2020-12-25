@@ -95,11 +95,20 @@ fi
 
 mkdir Build
 echo "${BUILDSCRIPT}" > Build/build.sh; chmod +x Build/build.sh
-if [[ $(ls -l *.patch 2>/dev/null|wc -c) -ne 0 ]]
-then
-    cp *.patch Build/
-    DOCKERFILE="${DOCKERFILE}COPY *.patch /root/rpmbuild/SOURCES/"
-fi
+SOURCE_FILES=`cat ${PACKAGE}.spec|grep '^Source[0-9]\+:\|^Patch[0-9]\+:' | grep -v -e 'http\|https'|tr -d ' '|cut -d ':' -f2-`
+if [[ -n ${SOURCE_FILES} ]]; then DOCKERFILE="${DOCKERFILE}COPY"; fi
+for FILE in ${SOURCE_FILES}
+do
+    if [[ -e ${FILE} ]]
+    then
+        cp ${FILE} Build/
+        DOCKERFILE="${DOCKERFILE} ${FILE}"
+    else
+        echo "ERROR: Source or patch file ${FILE} not found!"
+    fi
+done 
+if [[ -n ${SOURCE_FILES} ]]; then DOCKERFILE="${DOCKERFILE}  /root/rpmbuild/SOURCES/"; fi
+
 echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/
 cd Build
