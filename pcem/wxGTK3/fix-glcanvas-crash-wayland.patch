@@ -1,0 +1,52 @@
+From 76c393b8bd1968dcf18e2c93f1c37d1c58215d4f Mon Sep 17 00:00:00 2001
+From: Scott Talbert <swt@techie.net>
+Date: Wed, 1 Aug 2018 20:52:11 -0700
+Subject: [PATCH] Give an error when trying to use wxGLCanvas on non-X11
+ display
+
+Currently, wxGLCanvas on wxGTK is only supported on X11 displays.  If a
+user attempts to use wxGLCanvas on Wayland, for example, the application
+will core dump.  This change adds an error message and a suggested
+workaround until wxGLCanvas is supported on Wayland.
+See #17702
+See https://github.com/wxWidgets/wxWidgets/pull/871
+
+(backport of 95857a1f71bd0c19e3059ebf0eea28e9bb8b7602)
+---
+ src/gtk/glcanvas.cpp | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/src/gtk/glcanvas.cpp b/src/gtk/glcanvas.cpp
+index d4acb9c8c2a..0953be61807 100644
+--- a/src/gtk/glcanvas.cpp
++++ b/src/gtk/glcanvas.cpp
+@@ -208,6 +208,19 @@ wxGLCanvas::wxGLCanvas(wxWindow *parent,
+ 
+ #endif // WXWIN_COMPATIBILITY_2_8
+ 
++static bool IsAvailable()
++{
++#ifdef GDK_WINDOWING_X11
++    if ( !GDK_IS_X11_DISPLAY(gdk_display_get_default()) )
++#endif
++    {
++        wxSafeShowMessage(_("Fatal Error"), _("wxGLCanvas is only supported on X11 currently.  You may be able to\nwork around this by setting environment variable GDK_BACKEND=x11 before starting\nyour program."));
++        return false;
++    }
++
++    return true;
++}
++
+ bool wxGLCanvas::Create(wxWindow *parent,
+                         wxWindowID id,
+                         const wxPoint& pos,
+@@ -217,6 +230,9 @@ bool wxGLCanvas::Create(wxWindow *parent,
+                         const int *attribList,
+                         const wxPalette& palette)
+ {
++    if ( !IsAvailable() )
++        return false;
++
+ #if wxUSE_PALETTE
+     wxASSERT_MSG( !palette.IsOk(), wxT("palettes not supported") );
+ #endif // wxUSE_PALETTE
