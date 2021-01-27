@@ -1,6 +1,6 @@
 Name:		vhba-module
 Version:	20200106
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	VHBA module provides a Virtual (SCSI) HBA, which is the link between userspace daemon and linux kernel.
 
 Group:	 	System Tools	
