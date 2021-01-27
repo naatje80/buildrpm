@@ -1,5 +1,5 @@
 Name:		vlc
-Version:	3.0.11
+Version:	3.0.12
 Release:	1%{?dist}
 Summary:	VLC media player
 
