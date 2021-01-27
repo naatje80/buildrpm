@@ -15,7 +15,7 @@
 -
 +		
 +		var name = title.get_title ();
-+		if( /Proton \d\.\d/.match ( name ) || name == "Steam Linux Runtime - Soldier" || name == "Steamworks Common Redistributables")
++		if( /Proton \d\.\d/.match ( name ) || name == "Steam Linux Runtime - Soldier" || name == "Steamworks Common Redistributables" || name == "Proton Experimental" )
 +			throw new SteamError.NO_NAME (_("Skipping %s"), name);
 +			
  		string[] args = {};
