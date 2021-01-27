@@ -1,7 +1,7 @@
 # 3.30.2 latest version compatible with GTK3
 Name:		gnome-games		
 Version:	3.30.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Simple game launcher for GNOME
 	
 
