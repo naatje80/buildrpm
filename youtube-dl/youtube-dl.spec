@@ -1,5 +1,10 @@
+%define _date_version           2021-01-03
+
+%define _version                %(date=%{_date_version}; date --date=${date} +%%Y.%%m.%%d)
+%define _package_version        %(date=%{_date_version}; date --date=${date} +%%Y.%%-m.%%-d)
+
 Name:		youtube-dl
-Version:	2020.11.18
+Version:	%{_version}
 Release:	1%{?dist}
 Summary: 	A command-line program to download videos from e.g. YouTube.com
 
@@ -32,7 +37,7 @@ sed -i 's/0.0.0/0.5/g' /tmp/pythondeps/lib/python3.6/site-packages/zipp-0.0.0-py
 PYTHONPATH=/tmp/pythondeps/lib/python3.6/site-packages python3 setup.py bdist_zapp -e youtube_dl:main
 
 %install
-install -D -m 755 dist/youtube_dl-%{version}.pyz %{_buildroot}/usr/bin/youtube-dl
+install -D -m 755 dist/youtube_dl-%{_package_version}.pyz ${RPM_BUILD_ROOT}/usr/bin/youtube-dl
 
 %files
 
