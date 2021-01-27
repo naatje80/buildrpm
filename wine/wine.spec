@@ -1,12 +1,12 @@
 Name:           wine
-Version:        5.0.2
+Version:        6.0
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/5.0/wine-%{version}.tar.xz 
+Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}.tar.xz 
 Source1:        https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 
 BuildRequires: libX11-devel(x86-64) libX11-devel(x86-32)
@@ -28,6 +28,8 @@ BuildRequires: mesa-libGLU-devel(x86-64) mesa-libGLU-devel(x86-32)
 BuildRequires: mesa-libOSMesa-devel(x86-64) mesa-libOSMesa-devel(x86-32) 
 BuildRequires: libXrandr-devel(x86-64) libXrandr-devel(x86-32)
 BuildRequires: libXinerama-devel(x86-64) libXinerama-devel(x86-32)
+BuildRequires: vulkan-loader-devel(x86-64) vulkan-loader-devel(x86-32) vulkan-headers
+BuildRequires: dbus-devel(x86-64) dbus-devel(x86-32)
 
 Requires: libX11(x86-64) libX11(x86-32)
 Requires: freetype(x86-64) freetype(x86-32)
@@ -49,6 +51,8 @@ Requires: mesa-libOSMesa(x86-64) mesa-libOSMesa(x86-32)
 Requires: mesa-dri-drivers(x86-64) mesa-dri-drivers(x86-32)
 Requires: libXrandr(x86-64) libXrandr(x86-32)
 Requires: libXinerama(x86-64) libXinerama(x86-32)
+Requires: vulkan-loader(x86-64) vulkan-loader(x86-32)
+Requires: dbus-libs(x86-64) dbus-libs(x86-32)
 
 %description
 Wine as a compatibility layer for UNIX to run Windows applications. This
