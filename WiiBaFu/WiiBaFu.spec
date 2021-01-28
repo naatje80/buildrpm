@@ -47,6 +47,13 @@ cat << EOF > org.wiibafu.pkexec.wiibafu.policy
     </action>
 </policyconfig>
 EOF
+cat << EOF >> WiiBaFu
+#! /bin/bash
+export TERM=xterm-256color
+export XDG_CURRENT_DESKTOP=GNOME
+ 
+/usr/bin/WiiBaFu_exec ${0}
+EOF
 
 %install
 cd %{name}
@@ -54,7 +61,9 @@ cd %{name}
 sed -i 's/^Exec=.*/Exec=\/usr\/bin\/pkexec \/usr\/bin\/WiiBaFu/' ${RPM_BUILD_ROOT}/usr/share/applications/WiiBaFu.desktop
 install -m 755 -d %{buildroot}/usr/share/polkit-1/actions
 install -m 644 -t %{buildroot}/usr/share/polkit-1/actions org.wiibafu.pkexec.wiibafu.policy
-
+mv %{buildroot}/%{_bindir}/WiiBaFu %{buildroot}/%{_bindir}/WiiBaFu_exec
+install -m 755 -t %{buildroot}/%{_bindir} WiiBaFu
+ 
 %files
 %doc
 
