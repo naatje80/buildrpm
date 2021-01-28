@@ -15,14 +15,15 @@ BuildRequires:	libopenshot-audio-devel
 BuildRequires:  libopenshot-devel	
 BuildRequires:	python3-sip-devel
 BuildRequires:  python3-setuptools
+BuildRequires:	python3-qt5-devel
 
 Requires:	python3
 Requires:	libopenshot-audio
-Requires:   libopenshot	
+Requires:   	libopenshot	
 Requires:	python3-sip
 Requires:	python3-zmq
 Requires:	python3-requests
-Requires:   PyQt5
+Requires:   	python3-qt5-qtwebkit
 
 %description
 This repo is the primary development home for OpenShot Video Editor (version 2+), a PyQt video editing application which utilizes the powerful libopenshot C++ library. 
