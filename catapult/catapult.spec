@@ -14,7 +14,7 @@ BuildRequires:  wxBase3-devel
 BuildRequires:  wxGTK3-devel
 BuildRequires:  libxml2-devel
 
-Requires:	    openmsxrpp
+Requires:	    openmsx
 Requires:       wxBase3
 Requires:       wxGTK3
 Requires:       libxml2
