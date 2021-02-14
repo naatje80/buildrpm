@@ -14,7 +14,7 @@ BuildRequires:  wxBase3-devel
 BuildRequires:  wxGTK3-devel
 BuildRequires:  libxml2-devel
 
-Requires:	    openmsx
+Requires:	    openmsxrpp
 Requires:       wxBase3
 Requires:       wxGTK3
 Requires:       libxml2
@@ -31,8 +31,8 @@ make %{?_smp_mflags}
 
 
 %install
+install -d ${RPM_BUILD_ROOT}/usr/share/applications
 %make_install
-
 
 %files
 %doc
