@@ -24,7 +24,7 @@ OpenMSX GUI frontend
 
 %prep
 %setup -q -n openmsx-%{name}-%{version}
-sed -i 's#/opt/openMSX#/usr#' build/custom.mk 
+sed -i 's#/opt/openMSX-Catapult#/usr#' build/custom.mk 
 
 %build
 make %{?_smp_mflags}

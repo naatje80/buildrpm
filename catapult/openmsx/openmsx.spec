@@ -49,6 +49,8 @@ make %{?_smp_mflags}
 
 %install
 %make_install
+# Remove docs from openmsx, to prevent conflict with same documentation from catapult
+rm -rf ${RPM_BUILD_ROOT}/usr/doc
 
 
 %files
