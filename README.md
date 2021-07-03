@@ -5,6 +5,7 @@ The advantage is:_
 * _Software is not compiled with unnecessary features/options, because previous installations of development files_
 * _It will open the docker in interactive mode, in case the build fails at any given point. This allows one to debug the issue, before restarting the build procedure_
 * _The build process will automatically check which files need to be added to the rpms. Currently only normal files and development files are supported_
+* _If rpm-build from the repo is compiled, a faster (one time compile) is supported_
 
 _The repository also contains the spec files for applications that I've currently build using this software_
 
@@ -20,7 +21,7 @@ _The repository also contains the spec files for applications that I've currentl
 1. Either restart your session or execute: 
 `newgrp docker`
 
-## Preparation Centos 8
+## Preparation Centos 8/Rocky-Linux
 1. Centos8 default supports podman instead of docker. But the podman-docker rpm allows enable docker command support for podman. One additional advantage is no additional configuration is required to allow users to run containers. To install podman-docker execute:
 `sudo dnf -y install podman-docker`
 
