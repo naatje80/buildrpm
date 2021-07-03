@@ -29,7 +29,9 @@ Munt library development files
 
 
 %build
-%cmake -Dmunt_WITH_MT32EMU_QT=No
+%cmake -Dmunt_WITH_MT32EMU_QT=No \
+    -DCMAKE_BUILD_TYPE=Release \
+    -Dlibmt32emu_PKGCONFIG_INSTALL_PREFIX=lib64
 make %{?_smp_mflags}
 
 
