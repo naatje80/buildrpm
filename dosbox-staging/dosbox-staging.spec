@@ -6,12 +6,6 @@ License: GPLv2+
 URL:     https://dosbox-staging.github.io/
 
 Source0: https://github.com/dosbox-staging/dosbox-staging/archive/v%{version}/%{name}-%{version}.tar.gz
-#Source1: https://github.com/munt/munt/archive/libmt32emu_2_5_0.tar.gz
-# Downloaded from: https://wrapdb.mesonbuild.com/v1/projects/mt32emu/2.5.0/1/get_zip
-#Source2: mt32emu-2.5.0-1-wrap.zip
-
-# https://github.com/dosbox-staging/dosbox-staging/commit/5d25187760e595f7e6efa6b639c3945fb4804db1
-#Patch1: 0001-Add-0.77.0-release-to-metainfo.xml.patch
 
 # This package is a drop-in replacement for dosbox
 Provides:  dosbox = %{version}-%{release}
@@ -36,7 +30,7 @@ BuildRequires: libmt32emu-devel
 
 Requires: hicolor-icon-theme
 Requires: fluid-soundfont-gm
-Requires: libmt32-emu
+Requires: libmt32emu
 
 %description
 DOSBox Staging is full x86 CPU emulator (independent of host architecture),
@@ -56,16 +50,10 @@ any old DOS game using modern hardware.
 
 %prep
 %autosetup -p1
-# mt32emu is not packaged yet; provide sources for Meson wrap dependency:
-#mkdir -p %{_vpath_srcdir}/subprojects/packagecache/
-#cp %{SOURCE1} %{_vpath_srcdir}/subprojects/packagecache/
-#cp %{SOURCE2} %{_vpath_srcdir}/subprojects/packagecache/
-
 
 %build
 %meson -Ddefault_library=static
 %meson_build
-
 
 %install
 %meson_install
