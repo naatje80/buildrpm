@@ -15,9 +15,9 @@ BuildRequires:  gobject-introspection-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  libsoup-devel
 
-Requires: python3
-Requires: pygobject3
-Requires: python3-pylast
+Requires:  python3
+Requires:  python3-gobject
+Requires:  python3-pylast
 Requires:  python3-pillow
 Requires:  gstreamer1
 Requires:  gstreamer1-plugins-base

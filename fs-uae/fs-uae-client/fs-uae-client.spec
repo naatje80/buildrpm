@@ -12,13 +12,13 @@ Source0:	https://fs-uae.net/stable/%{version}/fs-uae-%{version}.tar.gz
 BuildRequires:  glib2-devel
 BuildRequires:  libpng-devel
 BuildRequires:  SDL2-devel
-BuildRequires:  openal-devel
+BuildRequires:  openal-soft-devel
 BuildRequires:  libXi-devel
 
 Requires:       glib2
 Requires:       libpng
 Requires:       SDL2
-Requires:       openal
+Requires:       openal-soft
 Requires:       libXi
 
 %description

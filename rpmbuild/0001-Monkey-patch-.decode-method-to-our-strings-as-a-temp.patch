@@ -1,0 +1,89 @@
+From 13b0ebee7cdb1e4d200b3c40d0ec9440f198a1d4 Mon Sep 17 00:00:00 2001
+Message-Id: <13b0ebee7cdb1e4d200b3c40d0ec9440f198a1d4.1554886141.git.pmatilai@redhat.com>
+From: Panu Matilainen <pmatilai@redhat.com>
+Date: Wed, 10 Apr 2019 11:24:44 +0300
+Subject: [PATCH] Monkey-patch .decode() method to our strings as a temporary
+ compat crutch
+
+As a temporary crutch to support faster deployment of the sane
+string behavior on python3, monkey-patch a decode method into all
+strings we return. This seems to be enough to fix practically all
+API users who have already adapted to the long-standing broken API
+on Python 3. API users compatible with both Python 2 and 3 never needed
+this anyway. Issue a warning with pointer to the relevant bug when the
+fake decode() method is used to alert users to the issue.
+
+This is certainly an evil thing to do and will be removed as soon as
+the critical users have been fixed to work with the new, corrected
+behavior.
+---
+ python/rpm/__init__.py |  3 +++
+ python/rpmmodule.c     |  1 +
+ python/rpmsystem-py.h  | 22 ++++++++++++++++++++--
+ 3 files changed, 24 insertions(+), 2 deletions(-)
+
+diff --git a/python/rpm/__init__.py b/python/rpm/__init__.py
+index 54728bbd4..6d69eda7b 100644
+--- a/python/rpm/__init__.py
++++ b/python/rpm/__init__.py
+@@ -61,6 +61,9 @@ except ImportError:
+ # backwards compatibility + give the same class both ways
+ ts = TransactionSet
+ 
++def _fakedecode(self, encoding='utf-8', errors='strict'):
++    warnings.warn("decode() called on unicode string, see https://bugzilla.redhat.com/show_bug.cgi?id=1693751", UnicodeWarning, stacklevel=2)
++    return self
+ 
+ def headerLoad(*args, **kwds):
+     """DEPRECATED! Use rpm.hdr() instead."""
+diff --git a/python/rpmmodule.c b/python/rpmmodule.c
+index 05032edc7..2a76cfbd0 100644
+--- a/python/rpmmodule.c
++++ b/python/rpmmodule.c
+@@ -28,6 +28,7 @@
+  */
+ 
+ PyObject * pyrpmError;
++PyObject * fakedecode = NULL;
+ 
+ static PyObject * archScore(PyObject * self, PyObject * arg)
+ {
+diff --git a/python/rpmsystem-py.h b/python/rpmsystem-py.h
+index 25938464a..803da0fc1 100644
+--- a/python/rpmsystem-py.h
++++ b/python/rpmsystem-py.h
+@@ -19,12 +19,29 @@
+ #define PyInt_AsSsize_t PyLong_AsSsize_t
+ #endif
+ 
++PyObject * fakedecode;
++
+ static inline PyObject * utf8FromString(const char *s)
+ {
+ /* In Python 3, we return all strings as surrogate-escaped utf-8 */
+ #if PY_MAJOR_VERSION >= 3
+-    if (s != NULL)
+-	return PyUnicode_DecodeUTF8(s, strlen(s), "surrogateescape");
++    if (s != NULL) {
++	PyObject *o = PyUnicode_DecodeUTF8(s, strlen(s), "surrogateescape");
++	/* fish the fake decode function from python side if not done yet */
++	if (fakedecode == NULL) {
++	    PyObject *n = PyUnicode_FromString("rpm");
++	    PyObject *m = PyImport_Import(n);
++	    PyObject *md = PyModule_GetDict(m);
++	    fakedecode = PyDict_GetItemString(md, "_fakedecode");
++	    Py_DECREF(m);
++	    Py_DECREF(n);
++	}
++	if (fakedecode && o) {
++	    /* monkey-patch it into the string object as "decode" */
++	    PyDict_SetItemString(Py_TYPE(o)->tp_dict, "decode", fakedecode);
++	}
++	return o;
++    }
+ #else
+     if (s != NULL)
+ 	return PyBytes_FromString(s);
+-- 
+2.20.1
+

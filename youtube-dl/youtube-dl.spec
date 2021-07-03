@@ -1,4 +1,4 @@
-%define _date_version           2021-01-03
+%define _date_version           2021-04-17
 
 %define _version                %(date=%{_date_version}; date --date=${date} +%%Y.%%m.%%d)
 %define _package_version        %(date=%{_date_version}; date --date=${date} +%%Y.%%-m.%%-d)
@@ -28,8 +28,12 @@ It is released to the public domain, which means you can modify it, redistribute
 
 
 %prep
+exit 1
 %setup -q -n %{name}
-PYTHONPATH=/tmp/pythondeps/lib/python3.6/site-packages pip3 install  --no-binary :all: --install-option="--prefix=/tmp/pythondeps" zapp
+python3 -m pip install -U pip
+python3 -m pip install -U setuptools
+#PYTHONPATH=/tmp/pythondeps/lib/python3.6/site-packages python3 -m pip install  --no-binary :all: --install-option="--prefix=/tmp/pythondeps" zapp
+PYTHONPATH=/tmp/pythondeps/lib/python3.6/site-packages python3 -m pip install  --no-binary :all: --prefix=/tmp/pythondeps zapp
 # Fix for version check
 sed -i 's/0.0.0/0.5/g' /tmp/pythondeps/lib/python3.6/site-packages/zipp-0.0.0-py3.6.egg-info/PKG-INFO
 

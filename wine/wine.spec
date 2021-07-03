@@ -1,12 +1,12 @@
 Name:           wine
-Version:        6.0
+Version:        6.6
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 
 Group:          Applications/Emulators
 License:        LGPLv2+
 URL:            https://www.winehq.org/
-Source0:        https://dl.winehq.org/wine/source/6.0/wine-%{version}.tar.xz 
+Source0:        https://dl.winehq.org/wine/source/6.x/wine-%{version}.tar.xz
 Source1:        https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
 
 BuildRequires: libX11-devel(x86-64) libX11-devel(x86-32)

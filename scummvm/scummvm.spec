@@ -37,7 +37,6 @@ Requires:	libtheora
 
 Patch0:		disable_unsupported_warning.patch
 Patch1:		remove_subtile_warning.patch
-#Patch2:     	base_string.patch
 
 %description
 ScummVM is a program which allows you to run certain classic graphical
@@ -47,12 +46,13 @@ shipped with the game, allowing you to play them on systems for which
 they were never designed!
 
 %prep
+export CFLAGS=-Wno-error=format-security
+export CXXFLAGS=-Wno-error=format-security
 rm -rf scummvm
 git clone --depth 1 https://github.com/scummvm/scummvm.git
 cd scummvm
 %patch0 -p 0
 %patch1 -p 0
-#%patch2 -p 0
 
 %build
 export CXX=g++
@@ -60,7 +60,7 @@ export CC=gcc
 cd %{_builddir}/scummvm
 %configure  --enable-release \
             --enable-all-engines 
-make %{?_smp_mflags}
+make %{?_smp_mflags} VERBOSE=1 V=1
 
 %install
 cd %{_builddir}/scummvm

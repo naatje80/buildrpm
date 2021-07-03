@@ -4,6 +4,9 @@ PACKAGE=$(basename ${1} .spec)
 DOCKERNAME=$(echo ${PACKAGE}|tr "[:upper:]" "[:lower:]")
 OS=${2}
 
+LOCAL_RPM_PATH=$(ls /volume1/Sys/repo/rpmbuild/ROCKYLINUX/RPMS/x86_64/rpm-build*.rpm|sort -d|head -1)
+LOCAL_RPM_FILE=$(basename ${LOCAL_RPM_PATH})
+
 START=$(date)
 
 function usage {
@@ -11,21 +14,21 @@ function usage {
     exit 0
 }
 
-if [[ ${OS} != "centos7" && ${OS} != "centos8" ]]
+if [[ ${OS} != "rocky-linux" && ${OS} != "centos8" ]]
 then
-    echo "Currently only centos7 and centos8 are supported"
-    usage
+    echo "Currently only rocky-linux and centos8 is supported: defaulting to rocky-linux"
+    OS="rocky-linux"
 fi
 
-if [[ ${OS} == "centos8" ]]
+if [[ ${OS} == "rocky-linux" ]]
 then
+    INSTALL_CMD="dnf"
+    OS="rockylinux/rockylinux"
+    REPODIR="ROCKYLINUX"
+else
     INSTALL_CMD="dnf"
     OS="centos:8"
     REPODIR="CENTOS8"
-else
-    INSTALL_CMD="yum"
-    OS="centos:7"
-    REPODIR="CENTOS7"
 fi
 
 if [[ ! -e ${PACKAGE}.spec ]]
@@ -33,6 +36,10 @@ then
     echo "Rpm spec file does not exist yet!"
     exit 1
 fi
+
+# Ensure the container is not running
+docker stop ${DOCKERNAME}-build
+docker rm ${DOCKERNAME}-build
 
 BUILDSCRIPT="""
 #! /bin/sh
@@ -68,7 +75,12 @@ else
     sed -i -e '/%files[\s]*$/r /tmp/DEVEL_FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
 fi
 sed -i -e '/%files[\s]*$/r /tmp/FILES.LOG' /root/rpmbuild/SPECS/${PACKAGE}.spec
-rpmbuild --noclean -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
+if [[ -n \$(rpmbuild --help|grep nobuildstage) ]]
+then
+        rpmbuild --noclean --nobuildstage --noprep -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
+else
+        rpmbuild --noclean -ba ~/rpmbuild/SPECS/${PACKAGE}.spec
+fi
 """
 
 DOCKERFILE="""
@@ -78,15 +90,25 @@ VOLUME /${REPODIR}
 RUN yum -y update; \
     ${INSTALL_CMD} -y groupinstall \"Development Tools\"; \
     ${INSTALL_CMD} -y install rpmdevtools yum-utils; \
+    echo \"continue\"; \
     yum-config-manager --enable powertools 
 RUN mkdir -p ~/rpmbuild/{SPECS,SOURCES}; \
     echo -e '%debug_package %{nil}\n%_rpmdir   /${REPODIR}/RPMS\n%_srcrpmdir   /${REPODIR}/SRPMS\n%_builddir	/tmp/rpmbuild/BUILD\n%_buildrootdir /tmp/rpmbuild/BUILDROOT\n%_sourcedir    %(echo \$HOME)/rpmbuild/SOURCES\n%_specdir   %(echo \$HOME)/rpmbuild/SOURCES' > ~/.rpmmacros
 COPY ${PACKAGE}.spec /root/rpmbuild/SPECS
 WORKDIR /root/rpmbuild
-RUN echo -e '[localrepo]\nname=localrepo\nbaseurl=file:///CENTOS8/RPMS\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/local.repo 
+RUN echo -e '[localrepo]\nname=localrepo\nbaseurl=file:///${REPODIR}/RPMS\ngpgcheck=0\nenabled=1' > /etc/yum.repos.d/local.repo 
 COPY build.sh /root/rpmbuild
 """
 
+# If own compiled rpm-build exists (to support single/faster builds)
+# Force the installation of the own compiled version
+if [[ -e ${LOCAL_RPM_PATH} ]]
+then
+    DOCKERFILE="""${DOCKERFILE}RUN echo -e 'exclude=rpm-build*' >>  /etc/yum.repos.d/local.repo
+COPY ${LOCAL_RPM_FILE} /root/rpmbuild
+RUN rpm -ivh --nodeps --force /root/rpmbuild/${LOCAL_RPM_FILE}
+    """
+fi
 
 if [[ -d Build ]]
 then
@@ -108,6 +130,11 @@ do
     fi
 done 
 if [[ -n ${SOURCE_FILES} ]]; then DOCKERFILE="${DOCKERFILE}  /root/rpmbuild/SOURCES/"; fi
+
+if [[ -e ${LOCAL_RPM_PATH} ]]
+then
+    cp ${LOCAL_RPM_PATH} Build/
+fi 
 
 echo "${DOCKERFILE}" > Build/Dockerfile
 cp ${PACKAGE}.spec Build/

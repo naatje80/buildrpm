@@ -1,5 +1,5 @@
 Name:		spotify-client
-Version:	1.1.42.622
+Version:	1.1.56.595
 Release:	1%{?dist}
 Summary:	spotify client application for Linux
 
@@ -8,8 +8,8 @@ Summary:	spotify client application for Linux
 Group:		Music
 License:	closed source
 URL:		https://www.spotify.com/
-Source0:	https://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_%{version}.gbd112320-37_amd64.deb
-Source1:        https://curl.se/download/curl-%{_curl_version}.tar.gz
+Source0:    https://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_%{version}.g2d2da0de_amd64.deb
+Source1:    https://curl.se/download/curl-%{_curl_version}.tar.gz
 Patch0:		curl_gnutls.patch
 
 BuildRequires:  gnutls-devel
@@ -20,7 +20,7 @@ Steam is the ultimate destination for playing, discussing, and creating games.
 
 %prep
 # Downloading spotify deb currently breaks: force redownload using wget
-wget -q https://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_%{version}.gbd112320-37_amd64.deb -O %{_sourcedir}/spotify-client_%{version}.gbd112320-37_amd64.deb
+wget -q https://repository-origin.spotify.com/pool/non-free/s/spotify-client/spotify-client_%{version}.g2d2da0de_amd64.deb -O %{_sourcedir}/spotify-client_%{version}.g2d2da0de_amd64.deb
 %setup -q -T -c %{name}-%{version}
 ar -xv %{SOURCE0}
 %setup -T -D -b 1 -n curl-%{_curl_version}

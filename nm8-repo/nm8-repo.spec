@@ -1,6 +1,6 @@
 Name:		nm8-repo
 Version:	1.00
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	nm8 repo
 
 Group:		Applications/Multimedia
@@ -20,9 +20,16 @@ nm8 repo installatio
 mkdir -p  %{buildroot}/etc/yum.repos.d
 echo """[nm8repo]
 name=NM8 Repo
-baseurl=https://nm8.home.xs4all.nl/CENTOS\$releasever
+baseurl=https://nm8.home.xs4all.nl/CENTOS\$releasever/RPMS
 gpgcheck=0
-enabled=1""" > %{buildroot}/etc/yum.repos.d/nm8.repo
+enabled=1
+
+[nm8repo-source]
+name=NM8 Repo - Source
+baseurl=https://nm8.home.xs4all.nl/CENTOS\$releasever/SRPMS
+gpgcheck=0
+enabled=0
+""" > %{buildroot}/etc/yum.repos.d/nm8.repo
 #gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-nm8
 
 %post
