@@ -1,5 +1,5 @@
 Name:		nm8-repo
-Version:	1.00
+Version:	2.00
 Release:	2%{?dist}
 Summary:	nm8 repo
 
@@ -20,13 +20,13 @@ nm8 repo installatio
 mkdir -p  %{buildroot}/etc/yum.repos.d
 echo """[nm8repo]
 name=NM8 Repo
-baseurl=https://nm8.home.xs4all.nl/CENTOS\$releasever/RPMS
+baseurl=https://nm8.home.xs4all.nl/ROCKYLINUX/RPMS
 gpgcheck=0
 enabled=1
 
 [nm8repo-source]
 name=NM8 Repo - Source
-baseurl=https://nm8.home.xs4all.nl/CENTOS\$releasever/SRPMS
+baseurl=https://nm8.home.xs4all.nl/ROCKYLINUX/SRPMS
 gpgcheck=0
 enabled=0
 """ > %{buildroot}/etc/yum.repos.d/nm8.repo

@@ -129,7 +129,7 @@ do
         echo "ERROR: Source or patch file ${FILE} not found!"
     fi
 done 
-if [[ -n ${SOURCE_FILES} ]]; then DOCKERFILE="${DOCKERFILE}  /root/rpmbuild/SOURCES/"; fi
+if [[ -n ${SOURCE_FILES} ]]; then DOCKERFILE="${DOCKERFILE} /root/rpmbuild/SOURCES/"; fi
 
 if [[ -e ${LOCAL_RPM_PATH} ]]
 then

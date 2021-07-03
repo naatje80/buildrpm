@@ -461,16 +461,19 @@ popd
 rm -rf $RPM_BUILD_ROOT
 
 make DESTDIR="$RPM_BUILD_ROOT" install
+#rm -f $RPM_BUILD_ROOT/usr/lib/rpm/fileattrs/python.attr
+#rm -f $RPM_BUILD_ROOT/usr/lib/rpm/pythondistdeps.py
 
 # We need to build with --enable-python for the self-test suite, but we
 # actually package the bindings built with setup.py (#531543#c26)
-pushd python
-%if %{with python2}
-%{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
-%endif # with python2
-%{__python3} setup.py install --skip-build --root $RPM_BUILD_ROOT
-popd
-
+#pushd python
+#%if %{with python2}
+#%{__python2} setup.py install --skip-build --root $RPM_BUILD_ROOT
+#%endif # with python2
+#%{__python3} setup.py install --skip-build --root $RPM_BUILD_ROOT
+#popd
+rm -f $RPM_BUILD_ROOT/usr/lib/rpm/fileattrs/python.attr
+rm -f $RPM_BUILD_ROOT/usr/lib/rpm/pythondistdeps.py
 
 %files
 %{_bindir}/rpmbuild
