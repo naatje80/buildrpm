@@ -29,7 +29,6 @@ BuildRequires: SDL2_net-devel
 BuildRequires: libmt32emu-devel
 
 Requires: hicolor-icon-theme
-Requires: fluid-soundfont-gm
 Requires: libmt32emu
 
 %description
