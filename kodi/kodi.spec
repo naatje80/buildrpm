@@ -1,5 +1,5 @@
-%define		kodi_release Matrix
-
+%define		kodi_release 	             Matrix
+%define		inputstream_adaptive_version 2.6.17
 Name:		kodi		
 Version:	19.1
 Release:	1%{?dist}
@@ -9,8 +9,10 @@ Group:		Media
 License:	GPL-2.0-or-later
 URL:		https://kodi.tv
 Source0:	https://github.com/xbmc/xbmc/archive/refs/tags/%{version}-%{kodi_release}.tar.gz
+Source1:	https://github.com/xbmc/inputstream.adaptive/archive/refs/tags/%{inputstream_adaptive_version}-%{kodi_release}.tar.gz
 
 Patch1:     	kodi-annobin-workaround.patch
+Patch2:		el8_mariadb.patch
 
 BuildRequires: alsa-lib-devel 
 BuildRequires: avahi-compat-libdns_sd-devel 
@@ -105,6 +107,8 @@ for Android, BSD, Linux, macOS, iOS and Windows.
 %prep
 %setup -q -n xbmc-%{version}-%{kodi_release}
 %patch1 -p1
+%patch2 -p1
+%setup -T -b 1 -D -n xbmc-%{version}-%{kodi_release}
 
 %build
 export PKG_CONFIG_PATH=/usr/lib64/libva-2.7/pkgconfig
@@ -129,9 +133,12 @@ cd build
     -DENABLE_INTERNAL_SPDLOG=ON \
     -DENABLE_INTERNAL_GTEST=ON \
     -DTINYXML_INCLUDE_DIR=/usr/include \
-    -DTINYXML_LIBRARY_RELEASE=/usr/lib64/libtinyxml.so
+    -DTINYXML_LIBRARY_RELEASE=/usr/lib64/libtinyxml.so \
+    -DMARIADBCLIENT_INCLUDE_DIR=/usr/include \
+    -DENABLE_MARIADBCLIENT=ON \
+    -DENABLE_MYSQLCLIENT=OFF
+#exit 1
 make %{?_smp_mflags}
-
 
 %install
 cd build

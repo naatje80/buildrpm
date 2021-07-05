@@ -1,5 +1,5 @@
 Name:           wine
-Version:        6.6
+Version:        6.12
 Release:        1%{?dist}
 Summary:        A compatibility layer for windows applications
 

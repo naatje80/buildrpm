@@ -1,0 +1,24 @@
+diff -Naur xbmc-19.1-Matrix-org/xbmc/dbwrappers/mysqldataset.cpp xbmc-19.1-Matrix/xbmc/dbwrappers/mysqldataset.cpp
+--- xbmc-19.1-Matrix-org/xbmc/dbwrappers/mysqldataset.cpp	2021-05-08 18:20:52.000000000 +0200
++++ xbmc-19.1-Matrix/xbmc/dbwrappers/mysqldataset.cpp	2021-07-05 15:06:26.322947515 +0200
+@@ -21,7 +21,7 @@
+ #ifdef HAS_MYSQL
+ #include <mysql/errmsg.h>
+ #elif defined(HAS_MARIADB)
+-#include <mariadb/errmsg.h>
++#include <mysql/errmsg.h>
+ #endif
+ 
+ #ifdef TARGET_POSIX
+diff -Naur xbmc-19.1-Matrix-org/xbmc/dbwrappers/mysqldataset.h xbmc-19.1-Matrix/xbmc/dbwrappers/mysqldataset.h
+--- xbmc-19.1-Matrix-org/xbmc/dbwrappers/mysqldataset.h	2021-05-08 18:20:52.000000000 +0200
++++ xbmc-19.1-Matrix/xbmc/dbwrappers/mysqldataset.h	2021-07-05 15:06:46.322111712 +0200
+@@ -13,7 +13,7 @@
+ #ifdef HAS_MYSQL
+ #include <mysql/mysql.h>
+ #elif defined(HAS_MARIADB)
+-#include <mariadb/mysql.h>
++#include <mysql/mysql.h>
+ #endif
+ 
+ namespace dbiplus {
