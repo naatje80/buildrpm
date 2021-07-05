@@ -20,7 +20,7 @@ Requires:		fontconfig
 
 %package devel
 Summary:  development libraries for libass
-Requires: libdvdcss
+Requires: libass
 
 %description
 libass is a portable subtitle renderer for the ASS/SSA (Advanced Substation Alpha/Substation Alpha) subtitle format. It is mostly compatible with VSFilter.
