@@ -45,10 +45,10 @@ OpenShot Library (libopenshot) development files
 
 %prep
 %setup -q -n libopenshot-%{version}
-exit 1
 
 %build
-%cmake -Wno-dev 
+%cmake -Wno-dev \
+    -DCMAKE_BUILD_TYPE=Release 
 make %{?_smp_mflags}
 
 

@@ -15,14 +15,15 @@ BuildRequires:  libarchive-devel
 BuildRequires:  xz-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  lz4-devel
-BuildRequires:  lzo2-devel
+BuildRequires:  lzo-devel
+BuildRequires:  openssl-devel
 
 Requires: 	kodi-main
 Requires:   libarchive
 Requires:   xz-libs
 Requires:   bzip2-libs
 Requires:   lz4-libs
-Requires:   lzo2
+Requires:   lzo
 
 %description
 Libarchive VFS add-on for Kodi
