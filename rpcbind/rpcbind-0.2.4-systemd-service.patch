@@ -1,0 +1,20 @@
+diff -up rpcbind-1.2.5/systemd/rpcbind.service.in.orig rpcbind-1.2.5/systemd/rpcbind.service.in
+--- rpcbind-1.2.5/systemd/rpcbind.service.in.orig	2020-01-16 11:40:30.329120662 -0500
++++ rpcbind-1.2.5/systemd/rpcbind.service.in	2020-01-16 11:44:26.605895713 -0500
+@@ -7,13 +7,14 @@ RequiresMountsFor=@statedir@
+ # Make sure we use the IP addresses listed for
+ # rpcbind.socket, no matter how this unit is started.
+ Requires=rpcbind.socket
+-Wants=rpcbind.target
++Wants=rpcbind.target systemd-tmpfiles-setup.service
++After=systemd-tmpfiles-setup.service
+ 
+ [Service]
+ Type=notify
+ # distro can provide a drop-in adding EnvironmentFile=-/??? if needed.
+ EnvironmentFile=/etc/sysconfig/rpcbind
+-ExecStart=@_sbindir@/rpcbind $RPCBIND_OPTIONS -w -f
++ExecStart=@_sbindir@/rpcbind $RPCBIND_ARGS -w -f
+ 
+ [Install]
+ WantedBy=multi-user.target

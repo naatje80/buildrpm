@@ -1,0 +1,94 @@
+diff -up rpcbind-1.2.5/src/rpcbind.c.orig rpcbind-1.2.5/src/rpcbind.c
+--- rpcbind-1.2.5/src/rpcbind.c.orig	2020-02-06 14:19:34.199330296 -0500
++++ rpcbind-1.2.5/src/rpcbind.c	2020-02-06 14:20:19.069973902 -0500
+@@ -350,7 +350,7 @@ init_transport(struct netconfig *nconf)
+ {
+ 	int fd = -1;
+ 	struct t_bind taddr;
+-	struct addrinfo hints, *res;
++	struct addrinfo hints, *res = NULL;
+ 	struct __rpc_sockinfo si;
+ 	SVCXPRT	*my_xprt = NULL;
+ 	int status;	/* bound checking ? */
+@@ -827,8 +827,12 @@ got_socket:
+ 	}
+ #endif
+ 
++	if (res != NULL)
++		freeaddrinfo(res);
+ 	return (0);
+ error:
++	if (res != NULL)
++		freeaddrinfo(res);
+ 	close(fd);
+ 	return (1);
+ }
+diff -up rpcbind-1.2.5/src/rpcb_stat.c.orig rpcbind-1.2.5/src/rpcb_stat.c
+--- rpcbind-1.2.5/src/rpcb_stat.c.orig	2018-08-15 10:51:19.000000000 -0400
++++ rpcbind-1.2.5/src/rpcb_stat.c	2020-02-06 14:20:19.073973959 -0500
+@@ -151,7 +151,7 @@ rpcbs_rmtcall(rpcvers_t rtype, rpcproc_t
+ 	rpcbs_rmtcalllist *rl;
+ 	struct netconfig *nconf;
+ 
+-	if (rtype > RPCBVERS_STAT)
++	if (rtype >= RPCBVERS_STAT)
+ 		return;
+ 	for (rl = inf[rtype].rmtinfo; rl; rl = rl->next) {
+ 
+diff -up rpcbind-1.2.5/src/rpcinfo.c.orig rpcbind-1.2.5/src/rpcinfo.c
+--- rpcbind-1.2.5/src/rpcinfo.c.orig	2020-02-06 14:19:34.193330210 -0500
++++ rpcbind-1.2.5/src/rpcinfo.c	2020-02-06 14:20:19.073973959 -0500
+@@ -693,11 +693,11 @@ reply_proc (res, who, nconf)
+     }
+   if (!(uaddr = taddr2uaddr (nconf, who)))
+     {
+-      uaddr = UNKNOWN;
++      printf ("%s\t%s\n", UNKNOWN, hostname);
++    } else {
++      printf ("%s\t%s\n", uaddr, hostname);
++      free ((char *) uaddr);
+     }
+-  printf ("%s\t%s\n", uaddr, hostname);
+-  if (strcmp (uaddr, UNKNOWN))
+-    free ((char *) uaddr);
+   return (FALSE);
+ }
+ 
+diff -up rpcbind-1.2.5/src/util.c.orig rpcbind-1.2.5/src/util.c
+--- rpcbind-1.2.5/src/util.c.orig	2020-02-06 14:20:51.564439986 -0500
++++ rpcbind-1.2.5/src/util.c	2020-02-06 14:20:39.994274027 -0500
+@@ -322,13 +322,20 @@ network_init()
+ 	/*
+ 	 * Now join the RPC ipv6 multicast group on all interfaces.
+ 	 */
+-	if (getifaddrs(&ifp) < 0)
++	if (getifaddrs(&ifp) < 0) {
++		freeaddrinfo (res);
+ 		return;
+-
++	}
+ 	mreq6.ipv6mr_interface = 0;
+ 	inet_pton(AF_INET6, RPCB_MULTICAST_ADDR, &mreq6.ipv6mr_multiaddr);
+ 
+ 	s = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
++	if (s < 0) {
++	    if (debugging)
++		    fprintf(stderr, "socket(AF_INET6) failed: %s\n", strerror(errno));
++	    freeaddrinfo (res);
++	    return;
++	}
+ 
+ 	/*
+ 	 * Loop through all interfaces. For each IPv6 multicast-capable
+@@ -351,9 +358,9 @@ network_init()
+ 			if (debugging)
+ 				perror("setsockopt v6 multicast");
+ 	}
++	close(s);
+ #endif
+-
+-	/* close(s); */
++	freeaddrinfo (res);
+ }
+ 
+ struct sockaddr *
