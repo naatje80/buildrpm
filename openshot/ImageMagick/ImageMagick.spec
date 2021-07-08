@@ -1,5 +1,5 @@
-%global VER 6.9.11
-%global Patchlevel 45
+%global VER 6.9.12
+%global Patchlevel 17
 
 Name:		ImageMagick
 %if 0%{?fedora} >= 27
@@ -23,7 +23,7 @@ BuildRequires:	perl-generators
 %if 0%{?fedora} > 27
 BuildRequires:	libgs-devel, ghostscript-x11
 %else
-BuildRequires:	ghostscript-devel
+BuildRequires:	libgs-devel
 %endif
 %if 0%{?fedora}
 # These are not available in EPEL
@@ -67,7 +67,7 @@ Summary:	Library links and header files for ImageMagick app development
 Requires:	%{name}%{?_isa} = %{epoch}:%{version}-%{release}
 %if 0%{?fedora} > 27
 %else
-Requires:	ghostscript-devel
+Requires:	libgs-devel
 %endif
 Requires:	libX11-devel, libXext-devel, libXt-devel
 Requires:	bzip2-devel, freetype-devel, libtiff-devel, libjpeg-devel, lcms2-devel

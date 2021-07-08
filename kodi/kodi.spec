@@ -1,7 +1,7 @@
 %define		kodi_release 	             Matrix
 Name:		kodi
 Version:	19.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Open source media center
 
 Group:		Media
@@ -11,6 +11,9 @@ URL:		https://kodi.tv
 Requires: kodi-main == 19.1
 Requires: kodi-plugin-inputstream-adaptive <= 2.6.17
 Requires: kodi-plugin-visualization-projectm <= 3.3.0
+Requires: kodi-plugin-visualization-starburst <= 2.4.0
+Requires: kodi-plugin-visualization-shadertoy <= 2.3.0
+Requires: kodi-plugin-visualization-fishbmc <= 6.3.0
 
 %description
 Kodi is an award-winning free and open source home theater/media center software and entertainment 

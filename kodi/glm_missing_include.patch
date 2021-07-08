@@ -1,0 +1,11 @@
+diff -Naur visualization.starburst-2.4.0-Matrix.org/src/StarBurst.h visualization.starburst-2.4.0-Matrix/src/StarBurst.h
+--- visualization.starburst-2.4.0-Matrix.org/src/StarBurst.h    2021-07-08 18:04:00.739498513 +0000
++++ visualization.starburst-2.4.0-Matrix/src/StarBurst.h        2021-07-08 18:04:52.516960810 +0000
+@@ -14,6 +14,7 @@
+ 
+ #include <glm/glm.hpp>
+ #include <glm/gtc/type_ptr.hpp>
++#include <glm/gtc/matrix_transform.hpp>
+ 
+ typedef enum _WEIGHT {
+   WEIGHT_NONE = 0,
