@@ -88,4 +88,11 @@ firewall-cmd --zone=public --permanent --add-port=2759/udp
 firewall-cmd --zone=public --permanent --add-source-port=2759/udp
 firewall-cmd --reload
 
+%postrun 
+firewall-cmd --zone=public --permanent --remove-port=2757/udp
+firewall-cmd --zone=public --permanent --remove-soruce-port=2757/udp
+firewall-cmd --zone=public --permanent --remove-port=2759/udp
+firewall-cmd --zone=public --permanent --remove-source-port=2759/udp
+firewall-cmd --reload
+
 %changelog

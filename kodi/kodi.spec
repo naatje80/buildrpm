@@ -37,5 +37,9 @@ firewall-cmd --zone=public --permanent --add-port=8080/tcp
 firewall-cmd --zone=public --permanent --add-port=9090/tcp
 firewall-cmd --reload
 
-%changelog
+%postrun
+firewall-cmd --zone=public --permanent --remove-port=8080/tcp
+firewall-cmd --zone=public --permanent --remove-port=9090/tcp
+firewall-cmd --reload
 
+%changelog
