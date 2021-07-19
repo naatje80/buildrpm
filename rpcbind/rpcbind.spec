@@ -11,7 +11,7 @@ License:        BSD
 URL:            http://git.linux-nfs.org/?p=steved/rpcbind.git;a=summary
 
 Source0:        http://downloads.sourceforge.net/rpcbind/%{name}-%{version}.tar.bz2
-Source1: %{name}.sysconfig
+Source1: rpcbind.sysconfig
 
 Requires: glibc-common setup
 Conflicts: man-pages < 2.43-12

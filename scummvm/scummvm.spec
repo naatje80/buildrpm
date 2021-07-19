@@ -70,6 +70,4 @@ strip %{buildroot}/usr/bin/scummvm
 %files
 %doc
 
-
-
 %changelog

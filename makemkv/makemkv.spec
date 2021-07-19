@@ -1,5 +1,5 @@
 Name:           makemkv
-Version:        1.16.3
+Version:        1.16.4
 Release:        1%{?dist}
 Summary:        Video converter
 
@@ -10,8 +10,18 @@ Source0:        http://www.makemkv.com/download/makemkv-oss-%{version}.tar.gz
 Source1:        http://www.makemkv.com/download/makemkv-bin-%{version}.tar.gz
 Patch0:         accept_license.patch
 
-BuildRequires:  which zlib-devel openssl-devel expat-devel ffmpeg-devel qt5-qtbase-devel
-Requires:       zlib openssl expat ffmpeg qt5-qtbase
+BuildRequires:  which
+BuildRequires:  zlib-devel
+BuildRequires:  openssl-devel 
+BuildRequires:  expat-devel
+BuildRequires:  ffmpeg-devel 
+BuildRequires:  qt5-qtbase-devel
+
+Requires:       zlib 
+Requires:       openssl 
+Requires:       expat
+Requires:       ffmpeg 
+Requires:       qt5-qtbase
 
 %description
 MakeMKV is your one-click solution to convert video that you own into free and patents-unencumbered format that can be played everywhere. MakeMKV is a format converter, otherwise called "transcoder". It converts the video clips from proprietary (and usually encrypted) disc into a set of MKV files, preserving most information but not changing it in any way. The MKV format can store multiple video/audio tracks with all meta-information and preserve chapters. There are many players that can play MKV files nearly on all platforms, and there are tools to convert MKV files to many formats, including DVD and Blu-ray discs.

@@ -142,9 +142,9 @@ cd Build
 docker build -t ${DOCKERNAME} .
 if [[ ${?} == 0 ]]
 then
-    #docker run --rm -l ${PACKAGE}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${PACKAGE} sh ./build.sh &&
     docker run --name=${DOCKERNAME}-build -v /volume1/Sys/repo/rpmbuild/${REPODIR}:/${REPODIR} ${DOCKERNAME} sh ./build.sh &&
-        ( createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}/RPMS; createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}/SRPMS; \
+        (   if [[ $(gpg --list-keys|grep -c 'RPM Key Signer'|wc -l) -gt 0 ]]; then find /volume1/Sys/repo/rpmbuild/${REPODIR} -type f -iname '*.rpm' -newerct "${START}" -exec rpmsign --addsign --key-id="RPM Key Signer" '{}' \;; fi; \
+            createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}/RPMS; createrepo -v --update /volume1/Sys/repo/rpmbuild/${REPODIR}/SRPMS; \
             docker rm ${DOCKERNAME}-build ) ||
         ( echo -e "\n############################################################\nERROR Compiling: ${PACKAGE}, opening docker for debugging....\n############################################################";
             docker commit ${DOCKERNAME}-build debug-container; 

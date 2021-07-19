@@ -81,4 +81,11 @@ make install DESTDIR=%{buildroot}
 %files
 %doc
 
+%post
+firewall-cmd --zone=public --permanent --add-port=2757/udp
+firewall-cmd --zone=public --permanent --add-soruce-port=2757/udp
+firewall-cmd --zone=public --permanent --add-port=2759/udp
+firewall-cmd --zone=public --permanent --add-source-port=2759/udp
+firewall-cmd --reload
+
 %changelog

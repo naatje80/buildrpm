@@ -19,8 +19,8 @@ BuildRequires:  unrar
 BuildRequires:  tinyxml-devel
 
 Requires: 	kodi-main
-Requires:   unrar
-Requires:  tinyxml2-devel
+Requires:   	unrar
+Requires:  	tinyxml
 
 %description
 RAR VFS add-on for Kodi
